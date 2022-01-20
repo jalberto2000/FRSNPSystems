@@ -1,0 +1,42 @@
+PROPOSICIONES
+Cross section area of turbine’s path is too large: P1 = 0.6;
+Efficiency of assembling unit is too low: P2 = 1.;
+Ventilation side of the guider’s blade of turbine wears and tears;
+Inlet gas temperature of turbine is too low: P4 = 0.;
+Pressurization ratio of the compressor is too low: P5 = 0.2;
+Flow path of the combustor wears and tears;
+Flow rate of the fuel in the combustor is too high: P7 = 0.;
+Higher pressure level’s spray head of the turbine is broken;
+Outlet gas temperature of turbine is too high: P9 = 0.2;
+Efficiency of turbine is too low: P10 = 0.9;
+Flow coefficient of turbine is too low: P11 = 0.;
+Blade of the turbine scales;
+Power of assembling unit is too low: P13 = 0.8;
+Blade of the turbine wears and tears;
+Inlet gas temperature of turbine is too high: P15 = 0.2;
+Blade of the turbine burns down;
+Flow path of compressor wears and tears;
+Compressor is in turbulence;
+Blade of compressor breaks down: P19 = 0.;
+Conversion flow of the compressor is too low: P20 = 0.;
+Fuel consumption of assembling unit is too high: P21 = 0.3;
+Inlet of compressor freezes;
+Uniform entropy compression efficiency of compressor is too low: P23 = 0.;
+Compressor has a problem;
+Spray head of turbine is broken;
+
+REGLAS
+
+IF P1 AND P2 THEN P3: C1 = 0.8;
+IF P25 AND ¬P7 THEN P6: C2 = 0.8;
+IF P25 AND P7 THEN P8: C3 = 0.8;
+IF P9 AND P10 AND P11 THEN P12: C4 = 0.8;
+IF P10 AND P13 AND P2 THEN P14: C5 = 0.8;
+IF P2 AND P15 THEN P16: C6 = 0.8;
+IF P17 THEN P18: C7 = 0.9;
+IF P19 THEN P18: C8 = 1.;
+IF P20 AND P5 AND P24 THEN P22: C9 = 0.8;
+IF P2 AND P21 AND P15 THEN P24: C10 = 1.;
+IF P5 AND P23 THEN P12: C11 = 0.9;
+IF ¬P20 AND ¬P5 AND P24 THEN P17: C12 = 0.8;
+IF P4 AND P2 AND P5 THEN P25: C13 = 0.8;
