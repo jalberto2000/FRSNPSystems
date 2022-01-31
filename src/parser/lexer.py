@@ -20,6 +20,7 @@ class AnalizadorLexico(object):
         'REGLAS' : 'REGLAS',
         'THEN' : 'THEN',
         'AND' : 'AND',
+        'OR' : 'OR',
         'IF' : 'IF',
     }
     tokens = tokens +list(reserved.values())

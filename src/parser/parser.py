@@ -55,23 +55,40 @@ class Parser(object):
         def p_rule(self, p):
             '''
             rule : IF PNUMERO THEN PNUMERO DOSPUNTOS CNUMERO IGUAL COEFICIENTE PUNTOYCOMA 
-                 | IF PNUMERO andunion THEN PNUMERO DOSPUNTOS CNUMERO IGUAL COEFICIENTE PUNTOYCOMA
+                 | IF PNUMERO union THEN PNUMERO DOSPUNTOS CNUMERO IGUAL COEFICIENTE PUNTOYCOMA
             '''
             if len(p) == 10:
                 p[0] = ((p[2],), p[4], float(p[8]))
             else:
                 p[0] = ((p[2],)+p[3], p[5], float(p[9]))
         
+        def p_union(self, p):
+            '''
+            union : andunion
+                 | orunion
+            '''
+            p[0] = p[1]
         def p_andunion(self, p):
             '''
             andunion : AND PNUMERO andunion 
                      | AND PNUMERO
+                     | AND PNUMERO orunion
             '''
             if len(p) == 3:
-                p[0] = (p[2],)
+                p[0] = (p[1],p[2],)
             else:
-                p[0] = (p[2],) + p[3]
+                p[0] = (p[1],p[2],) + p[3]
         
+        def p_orunion(self, p):
+            '''
+            orunion : OR PNUMERO orunion
+                    | OR PNUMERO
+                    | OR PNUMERO andunion
+            '''
+            if len(p) == 3:
+                p[0] = (p[1],p[2],)
+            else:
+                p[0] = (p[1],p[2],) + p[3]
         def p_error(self, p):
             print(p)
             print("Error de sintaxis en el archivo")
