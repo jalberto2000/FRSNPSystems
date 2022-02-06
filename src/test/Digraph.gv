@@ -1,0 +1,62 @@
+digraph {
+	1 [label=P1]
+	2 [label=P2]
+	3 [label=P3]
+	4 [label=P4]
+	5 [label=P5]
+	6 [label=P6]
+	7 [label=P7]
+	8 [label=P8]
+	9 [label=P9]
+	10 [label=P10]
+	11 [label=P11]
+	12 [label=P12]
+	13 [label=P13]
+	14 [label=P14]
+	15 [label=P15]
+	16 [label=P16]
+	17 [label=P17]
+	18 [label=P18]
+	19 [label=P19]
+	20 [label=P20]
+	21 [label=P21]
+	22 [label=P22]
+	23 [label=P23]
+	24 [label=P24]
+	25 [label=P25]
+	26 [label=R1]
+	27 [label=R2]
+	28 [label=R3]
+	29 [label=R4]
+	30 [label=R5]
+	31 [label=R6]
+	32 [label=R7]
+	33 [label=R8]
+	34 [label=R9]
+	35 [label=R10]
+	36 [label=R11]
+	37 [label=R12]
+	38 [label=R13]
+	2 -> 26
+	26 -> 3
+	7 -> 28
+	28 -> 8
+	9 -> 29
+	29 -> 12
+	10 -> 30
+	30 -> 14
+	15 -> 31
+	31 -> 16
+	17 -> 32
+	32 -> 18
+	19 -> 33
+	33 -> 18
+	20 -> 34
+	34 -> 22
+	2 -> 35
+	35 -> 24
+	23 -> 36
+	36 -> 12
+	4 -> 38
+	38 -> 25
+}

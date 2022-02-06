@@ -1,7 +1,7 @@
 import ply.yacc as yacc
 
 #TOKENS DEFINIDOS EN EL ANALIZADOR LEXICO
-import lexer
+from file_interpreter.lexer import Lexer
 
 
 class Parser(object):
@@ -121,10 +121,14 @@ class Parser(object):
                     except StopIteration:
                         return None
             res = self._parser.parse("", lexer=self.lexer.lexer, tokenfunc = get_token)
-            print(res)
-lexer = lexer.AnalizadorLexico()
-lexer.build()
-parser = Parser()
-parser.build(lexer)
-f = open('../test/sistema', 'r', encoding = 'utf8')
-parser.parsing(f)
+            return res
+            # print(res)
+
+
+# lexer = Lexer()
+# lexer.build()
+# parser = Parser()
+# parser.build(lexer)
+# f = open('../test/sistema', 'r', encoding = 'utf8')
+# parser.parsing(f)
+# f.close()

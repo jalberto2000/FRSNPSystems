@@ -2,7 +2,7 @@ import ply.lex as lex
 
 
 
-class AnalizadorLexico(object):
+class Lexer(object):
     tokens = [
         'IDENT',
         'COEFICIENTE',
@@ -65,7 +65,7 @@ class AnalizadorLexico(object):
                 break
             print(tok)
             
-# lexer = AnalizadorLexico()
+# lexer = Lexer()
 # lexer.build()
 # f = open('../test/sistema', 'r', encoding= 'utf8')
 # data = f.read()
