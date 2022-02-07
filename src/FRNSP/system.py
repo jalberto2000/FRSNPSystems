@@ -1,4 +1,3 @@
-from operator import truth
 from neurons.neuron import RuleNeuron, PropositionNeuron
 from file_interpreter.parser import Parser
 from file_interpreter.lexer import Lexer
@@ -14,7 +13,7 @@ class System():
         f.close()
         self.graph = graphviz.Digraph()
         self.neurons = []
-        self.syn = []
+        self.syn = {}
         print(self.rules)
     def buildSystem(self) -> None:
         id = 1
@@ -40,39 +39,53 @@ class System():
             id += 1
         n_propositions = len(self.propositions) -1
 
-        #SE CREAN LAS CONEXIONES CORRESPONDIENTES AL SISTEMA
+        #CONEXIONES COMO DICCIONARIO LLAVE = NEURONA1 VALOR = (NEURONA2, FUNCION IDENTIDAD O INVERSA)
         for i in range(len(self.rules)):
             nodes = self.rules[i][0]
-            if len(nodes) == 2: #NOS ENCONTRAMOS ANTE UNA REGLA IF P THEN P
+            neurona_regla = self.neurons[n_propositions+i+1]
+            if len(nodes) == 2: #NOS ENCONTRAMOS ANTE UNA REGLA DE TIPO IF P THEN P
                 n_1 = nodes[0]
-                if '¬' in n_1:
-                    n_1 = int(n_1[2:])
-                else:
-                    n_1 = int(n_1[1:])
-                n_c =  nodes[1]
-                if '¬' in n_c:
-                    n_c = int(n_c[2:])
-                else:
-                    n_c = int(n_c[1:])
-                self.syn.append((self.neurons[n_1-1], self.neurons[n_propositions+i+1]))
-                self.syn.append((self.neurons[n_propositions+i+1], self.neurons[n_c-1]))
-            else: #NOS ENCONTRAMOS ANTE UNA REGLA AND U OR
-                n_c = nodes[-1]
-                nodes = nodes[:-1]
-                if '¬' in n_c:
-                    n_c = int(n_c[2:])
-                else:
-                    n_c = int(n_c[1:])
-                for node in nodes[1:]:
-                    n = node
-                    if '¬' in n:
-                        n = int(n[2:])
+                n_c = self.neurons[int(nodes[1][1:])-1]
+                if '¬' in n_1: #LA CONEXION ES DE TIPO NOT, POR LO QUE LA FUNCION SERA LA INVERSA
+                    n_1 = self.neurons[int(n_1[2:])-1]
+                    if n_1 not in self.syn:
+                        n_c = self.neurons[int(n_c[1:])-1]
+                        self.syn[n_1] = [(neurona_regla, lambda x: 1-x)]
+
                     else:
-                        n = int(n[1:])
-                    self.syn.append((self.neurons[n-1], self.neurons[n_propositions+i+1]))
-                    self.syn.append((self.neurons[n_propositions+i+1], self.neurons[n_c-1]))
-        
-        print(len(self.syn))
+                        self.syn[n_1].append((neurona_regla, lambda x: 1-x))
+                    
+                else: #LA CONEXION NO ES DE TIPO NOT, POR LO QUE LA FUNCION SERA LA IDENTIDAD
+                    n_1 = self.neurons[int(n_1[1:])-1]
+                    if n_1 not in self.syn:
+                        self.syn[n_1] = [(neurona_regla, lambda x:x)]
+                    else:
+                        self.syn[n_1].append((neurona_regla, lambda x:x))
+                if neurona_regla not in self.syn:
+                    self.syn[neurona_regla] = [(n_c, lambda x: x)]
+                else:
+                    self.syn[neurona_regla].append((n_c, lambda x: x))
+            else: #NOS ENCONTRAMOS ANTE UNA REGLA AND U OR
+                n_c = self.neurons[int(nodes[-1][1:])-1]
+                nodes = nodes[:-1]
+                for node in nodes[1:]:
+                    n_1 = node
+                    if '¬' in n_1:
+                        n_1 = self.neurons[int(n_1[2:])-1]
+                        if n_1 not in self.syn:
+                            self.syn[n_1] = [(neurona_regla, lambda x: 1-x)]
+                        else:
+                            self.syn[n_1].append((neurona_regla, lambda x:1-x))
+                    else:
+                        n_1 = self.neurons[int(n_1[1:])-1]
+                        if n_1 not in self.syn:
+                            self.syn[n_1] = [(neurona_regla, lambda x: x)]
+                        else:
+                            self.syn[n_1].append((neurona_regla, lambda x: x))
+                    if neurona_regla not in self.syn:
+                        self.syn[neurona_regla] = [(n_c, lambda x: x)]
+                    else:
+                        self.syn[neurona_regla].append((n_c, lambda x: x))
 
     
     def plot_graph(self):
@@ -83,8 +96,11 @@ class System():
                 graph.node(str(neuron.id), label = 'R'+str(neuron.id-p))
             else:
                 graph.node(str(neuron.id), label = 'P'+str(neuron.id))
-        for (n1, n2) in self.syn:
-            graph.edge(str(n1.id), str(n2.id))
+        for key in self.syn:
+            n1 = str(key.id)
+            for (n2, _) in self.syn[key]:
+                n2 = str(n2.id)
+                graph.edge(n1, n2)
         graph.format = "svg"
         graph.render(directory='./test')
         
