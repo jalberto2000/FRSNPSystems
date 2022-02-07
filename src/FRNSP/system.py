@@ -63,13 +63,12 @@ class System():
                     n_c = int(n_c[2:])
                 else:
                     n_c = int(n_c[1:])
-                print(nodes[1:])
                 for node in nodes[1:]:
                     n = node
-                if '¬' in n:
-                    n = int(n[2:])
-                else:
-                    n = int(n[1:])
+                    if '¬' in n:
+                        n = int(n[2:])
+                    else:
+                        n = int(n[1:])
                     self.syn.append((self.neurons[n-1], self.neurons[n_propositions+i+1]))
                     self.syn.append((self.neurons[n_propositions+i+1], self.neurons[n_c-1]))
         
@@ -77,7 +76,7 @@ class System():
 
     
     def plot_graph(self):
-        graph = graphviz.Digraph()
+        graph = graphviz.Digraph(strict=True)
         p = len(self.propositions)
         for neuron in self.neurons:
             if type(neuron) == RuleNeuron:
