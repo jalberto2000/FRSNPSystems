@@ -1,6 +1,7 @@
 from neurons.neuron import RuleNeuron, PropositionNeuron
 from file_interpreter.parser import Parser
 from file_interpreter.lexer import Lexer
+from FRNSP.utils import calculate_IN, calculate_OUT, calculate_maximum_depth
 import graphviz
 class System():
     def __init__(self, file) -> None:
@@ -11,10 +12,11 @@ class System():
         f = open(file, 'r', encoding= "utf8")
         self.propositions, self.rules = self.parser.parsing(f)
         f.close()
+        self.t = 0
         self.graph = graphviz.Digraph()
         self.neurons = []
         self.syn = {}
-        print(self.rules)
+
     def buildSystem(self) -> None:
         id = 1
 
@@ -86,9 +88,9 @@ class System():
                         self.syn[neurona_regla] = [(n_c, lambda x: x)]
                     else:
                         self.syn[neurona_regla].append((n_c, lambda x: x))
-
+        print(calculate_maximum_depth(self.syn, calculate_IN(self.syn), calculate_OUT(self.syn, self.neurons)))
     
-    def plot_graph(self):
+    def plot_graph(self) -> None:
         graph = graphviz.Digraph(strict=True)
         p = len(self.propositions)
         for neuron in self.neurons:
@@ -98,11 +100,21 @@ class System():
                 graph.node(str(neuron.id), label = 'P'+str(neuron.id))
         for key in self.syn:
             n1 = str(key.id)
-            for (n2, _) in self.syn[key]:
+            for (n2, f) in self.syn[key]:
                 n2 = str(n2.id)
-                graph.edge(n1, n2)
+                
+                if f(1) != 1:
+                    graph.edge(n1, n2, penwidth = "2")
+                else:
+                    graph.edge(n1, n2)
+                    
+                
         graph.format = "svg"
         graph.render(directory='./test')
-        
+
+    def next_iteration(self) -> None:
+        pass
+
+
 
     
