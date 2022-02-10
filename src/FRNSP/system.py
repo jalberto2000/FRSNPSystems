@@ -1,8 +1,9 @@
 from neurons.neuron import RuleNeuron, PropositionNeuron
 from file_interpreter.parser import Parser
 from file_interpreter.lexer import Lexer
-from FRNSP.utils import calculate_IN, calculate_OUT, calculate_maximum_depth
+from FRNSP.utils import calculate_IN, calculate_OUT, calculate_maximum_depth, calculate_presyn, get_edge
 import graphviz
+import copy
 class System():
     def __init__(self, file) -> None:
         self.lexer = Lexer()
@@ -16,7 +17,9 @@ class System():
         self.graph = graphviz.Digraph()
         self.neurons = []
         self.syn = {}
-
+        self.IN = []
+        self.OUT = []
+        self.maximum_depth = None
     def buildSystem(self) -> None:
         id = 1
 
@@ -88,16 +91,74 @@ class System():
                         self.syn[neurona_regla] = [(n_c, lambda x: x)]
                     else:
                         self.syn[neurona_regla].append((n_c, lambda x: x))
-        print(calculate_maximum_depth(self.syn, calculate_IN(self.syn), calculate_OUT(self.syn, self.neurons)))
-    
+        self.IN = calculate_IN(self.syn)
+        self.OUT = calculate_OUT(self.syn, self.neurons)
+        self.maximum_depth = calculate_maximum_depth(self.syn, self.IN, self.OUT)
+
+#FUNCION QUE COMPUTA LA SIGUIENTE ITERACION EN EL SISTEMA
+    def next_iteration(self) -> None:
+        next_it = []
+        for neuron in self.neurons:
+            if neuron in self.IN: #LA NEURONA PERTENECE AL CONJUNTO IN
+                if self.t >= self.maximum_depth:
+                    n_neuron = copy.copy(neuron)
+                    n_neuron.truth_value = 0 
+                    n_neuron.ready_to_fire = 0
+                    next_it.append(n_neuron)
+                else:
+                    n_neuron = copy.copy(neuron)
+                    next_it.append(n_neuron)
+            else: #LA NEURONA NO PERTENECE AL CONJUNTO IN
+                if neuron not in self.OUT and not neuron.ready_to_fire:
+                    presyn = calculate_presyn(self.syn, neuron, self.IN)
+                    all_actives = True
+                    for n in presyn:
+                        if not n.ready_to_fire:
+                            all_actives = False
+                            break
+                    if all_actives:
+                        gs = []
+                        for neuron_firing in presyn:
+                            _,f =  get_edge(self.syn, neuron_firing, neuron)
+                            gs.append(f(neuron_firing.pulse_value))
+                        n_neuron = copy.copy(neuron)
+                        n_neuron.pulse_value = n_neuron.function(gs)
+                        n_neuron.ready_to_fire = True
+                        next_it.append(n_neuron)
+                    else:
+                        n_neuron = copy.copy(neuron)
+                        next_it.append(n_neuron)
+                else:
+                    n_neuron = copy.copy(neuron)
+                    next_it.append(n_neuron)
+
+
+        for i in range(len(self.neurons)):
+            if type(self.neurons[i]) == PropositionNeuron:
+                self.neurons[i].pulse_value = next_it[i].pulse_value
+                self.neurons[i].ready_to_fire = next_it[i].ready_to_fire
+                self.neurons[i].truth_value = next_it[i].truth_value
+            else:
+                self.neurons[i].ready_to_fire = next_it[i].ready_to_fire
+                self.neurons[i].pulse_value = next_it[i].pulse_value
+                self.neurons[i].confidence_factor = next_it[i].confidence_factor
+
+        self.t += 1
+
     def plot_graph(self) -> None:
         graph = graphviz.Digraph(strict=True)
         p = len(self.propositions)
         for neuron in self.neurons:
             if type(neuron) == RuleNeuron:
-                graph.node(str(neuron.id), label = 'R'+str(neuron.id-p))
+                if neuron.ready_to_fire:
+                    graph.node(str(neuron.id), label = 'R'+str(neuron.id-p), style = "filled",fillcolor = "lightgray")
+                else:
+                    graph.node(str(neuron.id), label = 'R'+str(neuron.id-p))
             else:
-                graph.node(str(neuron.id), label = 'P'+str(neuron.id))
+                if neuron.ready_to_fire:
+                    graph.node(str(neuron.id), label = 'P'+str(neuron.id), style = "filled", fillcolor = "lightgray")
+                else:
+                    graph.node(str(neuron.id), label = 'P'+str(neuron.id))
         for key in self.syn:
             n1 = str(key.id)
             for (n2, f) in self.syn[key]:
@@ -110,11 +171,4 @@ class System():
                     
                 
         graph.format = "svg"
-        graph.render(directory='./test')
-
-    def next_iteration(self) -> None:
-        pass
-
-
-
-    
+        graph.render(directory='./test/grafo%d' %self.t)

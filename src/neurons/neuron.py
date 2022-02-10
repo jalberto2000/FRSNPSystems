@@ -14,5 +14,4 @@ class PropositionNeuron(Neuron):
 class RuleNeuron(Neuron):
     def __init__(self, id:int, function: Callable, pulse_value:float = 0,  confidence_factor:float = 0, ready_to_fire:bool = False) -> None:
         Neuron.__init__(self, id, function = function, ready_to_fire=ready_to_fire, pulse_value = pulse_value)
-        self.pulse_value = pulse_value
         self.confidence_factor = confidence_factor

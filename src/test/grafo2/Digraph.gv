@@ -1,0 +1,100 @@
+strict digraph {
+	1 [label=P1 fillcolor=lightgray style=filled]
+	2 [label=P2 fillcolor=lightgray style=filled]
+	3 [label=P3]
+	4 [label=P4 fillcolor=lightgray style=filled]
+	5 [label=P5 fillcolor=lightgray style=filled]
+	6 [label=P6]
+	7 [label=P7 fillcolor=lightgray style=filled]
+	8 [label=P8]
+	9 [label=P9 fillcolor=lightgray style=filled]
+	10 [label=P10 fillcolor=lightgray style=filled]
+	11 [label=P11 fillcolor=lightgray style=filled]
+	12 [label=P12]
+	13 [label=P13 fillcolor=lightgray style=filled]
+	14 [label=P14]
+	15 [label=P15 fillcolor=lightgray style=filled]
+	16 [label=P16]
+	17 [label=P17]
+	18 [label=P18]
+	19 [label=P19 fillcolor=lightgray style=filled]
+	20 [label=P20 fillcolor=lightgray style=filled]
+	21 [label=P21 fillcolor=lightgray style=filled]
+	22 [label=P22]
+	23 [label=P23 fillcolor=lightgray style=filled]
+	24 [label=P24 fillcolor=lightgray style=filled]
+	25 [label=P25 fillcolor=lightgray style=filled]
+	26 [label=R1 fillcolor=lightgray style=filled]
+	27 [label=R2]
+	28 [label=R3]
+	29 [label=R4 fillcolor=lightgray style=filled]
+	30 [label=R5 fillcolor=lightgray style=filled]
+	31 [label=R6 fillcolor=lightgray style=filled]
+	32 [label=R7]
+	33 [label=R8 fillcolor=lightgray style=filled]
+	34 [label=R9]
+	35 [label=R10 fillcolor=lightgray style=filled]
+	36 [label=R11 fillcolor=lightgray style=filled]
+	37 [label=R12]
+	38 [label=R13 fillcolor=lightgray style=filled]
+	1 -> 26
+	26 -> 3
+	26 -> 3
+	2 -> 26
+	2 -> 30
+	2 -> 31
+	2 -> 35
+	2 -> 38
+	25 -> 27
+	25 -> 28
+	27 -> 6
+	27 -> 6
+	7 -> 27 [penwidth=2]
+	7 -> 28
+	28 -> 8
+	28 -> 8
+	10 -> 29
+	10 -> 30
+	29 -> 12
+	29 -> 12
+	29 -> 12
+	11 -> 29
+	9 -> 29
+	13 -> 30
+	30 -> 14
+	30 -> 14
+	30 -> 14
+	31 -> 16
+	31 -> 16
+	15 -> 31
+	15 -> 35
+	17 -> 32
+	32 -> 18
+	19 -> 33
+	33 -> 18
+	5 -> 34
+	5 -> 36
+	5 -> 37 [penwidth=2]
+	5 -> 38
+	34 -> 22
+	34 -> 22
+	34 -> 22
+	24 -> 34
+	24 -> 37
+	20 -> 34
+	20 -> 37 [penwidth=2]
+	21 -> 35
+	35 -> 24
+	35 -> 24
+	35 -> 24
+	36 -> 12
+	36 -> 12
+	23 -> 36
+	37 -> 17
+	37 -> 17
+	37 -> 17
+	38 -> 25
+	38 -> 25
+	38 -> 25
+	4 -> 38
+}
