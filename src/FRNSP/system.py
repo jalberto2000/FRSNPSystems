@@ -146,19 +146,19 @@ class System():
         self.t += 1
 
     def plot_graph(self) -> None:
-        graph = graphviz.Digraph(strict=True)
+        graph = graphviz.Digraph(strict=True, graph_attr={"splines": "line"})
         p = len(self.propositions)
         for neuron in self.neurons:
             if type(neuron) == RuleNeuron:
                 if neuron.ready_to_fire:
-                    graph.node(str(neuron.id), label = 'R'+str(neuron.id-p), style = "filled",fillcolor = "lightgray")
+                    graph.node(str(neuron.id), label = str(neuron.pulse_value), xlabel = 'R'+str(neuron.id-p), style = "filled",fillcolor = "lightgray")
                 else:
-                    graph.node(str(neuron.id), label = 'R'+str(neuron.id-p))
+                    graph.node(str(neuron.id), label = str(neuron.pulse_value), xlabel = 'R'+str(neuron.id-p))
             else:
                 if neuron.ready_to_fire:
-                    graph.node(str(neuron.id), label = 'P'+str(neuron.id), style = "filled", fillcolor = "lightgray")
+                    graph.node(str(neuron.id), label = str(neuron.pulse_value), xlabel = 'P'+str(neuron.id), style = "filled", fillcolor = "lightgray")
                 else:
-                    graph.node(str(neuron.id), label = 'P'+str(neuron.id))
+                    graph.node(str(neuron.id), label = str(neuron.pulse_value), xlabel = 'P'+str(neuron.id))
         for key in self.syn:
             n1 = str(key.id)
             for (n2, f) in self.syn[key]:
@@ -168,7 +168,15 @@ class System():
                     graph.edge(n1, n2, penwidth = "2")
                 else:
                     graph.edge(n1, n2)
-                    
-                
+        with graph.subgraph() as sg:
+            sg.attr(rank = "min")
+            for n in self.IN:
+                sg.node(str(n.id))
+
+        with graph.subgraph() as sg:
+            sg.attr(rank = "max")
+            for n in self.OUT:
+                sg.node(str(n.id))
+                 
         graph.format = "svg"
         graph.render(directory='./test/grafo%d' %self.t)

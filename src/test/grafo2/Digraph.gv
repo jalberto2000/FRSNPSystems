@@ -1,42 +1,43 @@
 strict digraph {
-	1 [label=P1 fillcolor=lightgray style=filled]
-	2 [label=P2 fillcolor=lightgray style=filled]
-	3 [label=P3]
-	4 [label=P4 fillcolor=lightgray style=filled]
-	5 [label=P5 fillcolor=lightgray style=filled]
-	6 [label=P6]
-	7 [label=P7 fillcolor=lightgray style=filled]
-	8 [label=P8]
-	9 [label=P9 fillcolor=lightgray style=filled]
-	10 [label=P10 fillcolor=lightgray style=filled]
-	11 [label=P11 fillcolor=lightgray style=filled]
-	12 [label=P12]
-	13 [label=P13 fillcolor=lightgray style=filled]
-	14 [label=P14]
-	15 [label=P15 fillcolor=lightgray style=filled]
-	16 [label=P16]
-	17 [label=P17]
-	18 [label=P18]
-	19 [label=P19 fillcolor=lightgray style=filled]
-	20 [label=P20 fillcolor=lightgray style=filled]
-	21 [label=P21 fillcolor=lightgray style=filled]
-	22 [label=P22]
-	23 [label=P23 fillcolor=lightgray style=filled]
-	24 [label=P24 fillcolor=lightgray style=filled]
-	25 [label=P25 fillcolor=lightgray style=filled]
-	26 [label=R1 fillcolor=lightgray style=filled]
-	27 [label=R2]
-	28 [label=R3]
-	29 [label=R4 fillcolor=lightgray style=filled]
-	30 [label=R5 fillcolor=lightgray style=filled]
-	31 [label=R6 fillcolor=lightgray style=filled]
-	32 [label=R7]
-	33 [label=R8 fillcolor=lightgray style=filled]
-	34 [label=R9]
-	35 [label=R10 fillcolor=lightgray style=filled]
-	36 [label=R11 fillcolor=lightgray style=filled]
-	37 [label=R12]
-	38 [label=R13 fillcolor=lightgray style=filled]
+	graph [splines=line]
+	1 [label=0.6 fillcolor=lightgray style=filled xlabel=P1]
+	2 [label=1.0 fillcolor=lightgray style=filled xlabel=P2]
+	3 [label=0 xlabel=P3]
+	4 [label=0.0 fillcolor=lightgray style=filled xlabel=P4]
+	5 [label=0.2 fillcolor=lightgray style=filled xlabel=P5]
+	6 [label=0 xlabel=P6]
+	7 [label=0.0 fillcolor=lightgray style=filled xlabel=P7]
+	8 [label=0 xlabel=P8]
+	9 [label=0.2 fillcolor=lightgray style=filled xlabel=P9]
+	10 [label=0.9 fillcolor=lightgray style=filled xlabel=P10]
+	11 [label=0.0 fillcolor=lightgray style=filled xlabel=P11]
+	12 [label=0 xlabel=P12]
+	13 [label=0.8 fillcolor=lightgray style=filled xlabel=P13]
+	14 [label=0 xlabel=P14]
+	15 [label=0.2 fillcolor=lightgray style=filled xlabel=P15]
+	16 [label=0 xlabel=P16]
+	17 [label=0 xlabel=P17]
+	18 [label=0 xlabel=P18]
+	19 [label=0.0 fillcolor=lightgray style=filled xlabel=P19]
+	20 [label=0.0 fillcolor=lightgray style=filled xlabel=P20]
+	21 [label=0.3 fillcolor=lightgray style=filled xlabel=P21]
+	22 [label=0 xlabel=P22]
+	23 [label=0.0 fillcolor=lightgray style=filled xlabel=P23]
+	24 [label=0.2 fillcolor=lightgray style=filled xlabel=P24]
+	25 [label=0.0 fillcolor=lightgray style=filled xlabel=P25]
+	26 [label=0.6 fillcolor=lightgray style=filled xlabel=R1]
+	27 [label=0 xlabel=R2]
+	28 [label=0 xlabel=R3]
+	29 [label=0.0 fillcolor=lightgray style=filled xlabel=R4]
+	30 [label=0.8 fillcolor=lightgray style=filled xlabel=R5]
+	31 [label=0.2 fillcolor=lightgray style=filled xlabel=R6]
+	32 [label=0 xlabel=R7]
+	33 [label=0.0 fillcolor=lightgray style=filled xlabel=R8]
+	34 [label=0 xlabel=R9]
+	35 [label=0.2 fillcolor=lightgray style=filled xlabel=R10]
+	36 [label=0.0 fillcolor=lightgray style=filled xlabel=R11]
+	37 [label=0 xlabel=R12]
+	38 [label=0.0 fillcolor=lightgray style=filled xlabel=R13]
 	1 -> 26
 	26 -> 3
 	26 -> 3
@@ -97,4 +98,32 @@ strict digraph {
 	38 -> 25
 	38 -> 25
 	4 -> 38
+	{
+		rank=min
+		1
+		2
+		7
+		10
+		11
+		9
+		13
+		15
+		19
+		5
+		20
+		21
+		23
+		4
+	}
+	{
+		rank=max
+		3
+		6
+		8
+		12
+		14
+		16
+		18
+		22
+	}
 }
