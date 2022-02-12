@@ -96,8 +96,8 @@
 <!-- 3 -->
 <g id="node3" class="node">
 <title>3</title>
-<ellipse fill="none" stroke="black" cx="327" cy="-18" rx="27" ry="18"/>
-<text text-anchor="middle" x="327" y="-14.3" font-family="Times New Roman,serif" font-size="14.00">0</text>
+<ellipse fill="lightgray" stroke="black" cx="327" cy="-18" rx="27" ry="18"/>
+<text text-anchor="middle" x="327" y="-14.3" font-family="Times New Roman,serif" font-size="14.00">0.48</text>
 <text text-anchor="middle" x="292" y="-39.8" font-family="Times New Roman,serif" font-size="14.00">P3</text>
 </g>
 <!-- 4 -->
@@ -267,8 +267,8 @@
 <!-- 12 -->
 <g id="node12" class="node">
 <title>12</title>
-<ellipse fill="none" stroke="black" cx="399" cy="-18" rx="27" ry="18"/>
-<text text-anchor="middle" x="399" y="-14.3" font-family="Times New Roman,serif" font-size="14.00">0</text>
+<ellipse fill="lightgray" stroke="black" cx="399" cy="-18" rx="27" ry="18"/>
+<text text-anchor="middle" x="399" y="-14.3" font-family="Times New Roman,serif" font-size="14.00">0.0</text>
 <text text-anchor="middle" x="361" y="-39.8" font-family="Times New Roman,serif" font-size="14.00">P12</text>
 </g>
 <!-- 13 -->
@@ -287,8 +287,8 @@
 <!-- 14 -->
 <g id="node14" class="node">
 <title>14</title>
-<ellipse fill="none" stroke="black" cx="121" cy="-18" rx="27" ry="18"/>
-<text text-anchor="middle" x="121" y="-14.3" font-family="Times New Roman,serif" font-size="14.00">0</text>
+<ellipse fill="lightgray" stroke="black" cx="121" cy="-18" rx="27" ry="18"/>
+<text text-anchor="middle" x="121" y="-14.3" font-family="Times New Roman,serif" font-size="14.00">0.64</text>
 <text text-anchor="middle" x="83" y="-39.8" font-family="Times New Roman,serif" font-size="14.00">P14</text>
 </g>
 <!-- 15 -->
@@ -313,8 +313,8 @@
 <!-- 16 -->
 <g id="node16" class="node">
 <title>16</title>
-<ellipse fill="none" stroke="black" cx="471" cy="-18" rx="27" ry="18"/>
-<text text-anchor="middle" x="471" y="-14.3" font-family="Times New Roman,serif" font-size="14.00">0</text>
+<ellipse fill="lightgray" stroke="black" cx="471" cy="-18" rx="27" ry="18"/>
+<text text-anchor="middle" x="471" y="-14.3" font-family="Times New Roman,serif" font-size="14.00">0.16</text>
 <text text-anchor="middle" x="433" y="-39.8" font-family="Times New Roman,serif" font-size="14.00">P16</text>
 </g>
 <!-- 17 -->
