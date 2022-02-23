@@ -148,10 +148,17 @@ class System():
 
         self.t += 1
 
-    def run_algorithm(self) -> None:
+    def run_algorithm(self) -> str:
         while(self.t < self.maximum_depth):
             self.next_iteration()
             self.plot_graph()
+        index_of_neuron = self.neurons.index(max(self.OUT, key = lambda x : x.pulse_value))
+        return self.propositions[index_of_neuron][0]
+    def run_algorithm_not_graph(self) -> str:
+        while(self.t < self.maximum_depth):
+            self.next_iteration() 
+        index_of_neuron = self.neurons.index(max(self.OUT, key = lambda x : x.pulse_value))
+        return self.propositions[index_of_neuron][0]
 
     def plot_graph(self) -> None:
         graph = graphviz.Digraph(strict=True, graph_attr={"splines": "line"})
