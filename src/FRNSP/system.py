@@ -10,9 +10,13 @@ class System():
         self.lexer.build()
         self.parser = Parser()
         self.parser.build(self.lexer)
-        f = open(file, 'r', encoding= "utf8")
-        self.propositions, self.rules = self.parser.parsing(f)
-        f.close()
+        try:
+            f = open(file, 'r', encoding= "utf8")
+            self.propositions, self.rules = self.parser.parsing(f)
+            f.close()
+        except FileNotFoundError:
+            print("La ruta introducida es incorrecta, abortando ejecucion")
+            exit()
         self.t = 0
         self.graph = graphviz.Digraph()
         self.neurons = []
@@ -148,6 +152,11 @@ class System():
 
         self.t += 1
 
+    def reset_system(self) -> None:
+        self.t = 0
+        for neuron in self.neurons:
+            if neuron not in self.IN:
+                neuron.ready_to_fire = False
     def run_algorithm(self) -> str:
         while(self.t < self.maximum_depth):
             self.next_iteration()
