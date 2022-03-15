@@ -1,0 +1,165 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Grammar
+
+Rule 0     S' -> fichero
+Rule 1     fichero -> results
+Rule 2     results -> results result
+Rule 3     results -> result
+Rule 4     result -> ci GUION PNUMERO PUNTOYCOMA
+Rule 5     ci -> ci COMA PNUMERO DOSPUNTOS COEFICIENTE
+Rule 6     ci -> PNUMERO DOSPUNTOS COEFICIENTE
+
+Terminals, with rules where they appear
+
+COEFICIENTE          : 5 6
+COMA                 : 5
+DOSPUNTOS            : 5 6
+GUION                : 4
+PNUMERO              : 4 5 6
+PUNTOYCOMA           : 4
+error                : 
+
+Nonterminals, with rules where they appear
+
+ci                   : 4 5
+fichero              : 0
+result               : 2 3
+results              : 1 2
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . fichero
+    (1) fichero -> . results
+    (2) results -> . results result
+    (3) results -> . result
+    (4) result -> . ci GUION PNUMERO PUNTOYCOMA
+    (5) ci -> . ci COMA PNUMERO DOSPUNTOS COEFICIENTE
+    (6) ci -> . PNUMERO DOSPUNTOS COEFICIENTE
+
+    PNUMERO         shift and go to state 5
+
+    fichero                        shift and go to state 1
+    results                        shift and go to state 2
+    result                         shift and go to state 3
+    ci                             shift and go to state 4
+
+state 1
+
+    (0) S' -> fichero .
+
+
+
+state 2
+
+    (1) fichero -> results .
+    (2) results -> results . result
+    (4) result -> . ci GUION PNUMERO PUNTOYCOMA
+    (5) ci -> . ci COMA PNUMERO DOSPUNTOS COEFICIENTE
+    (6) ci -> . PNUMERO DOSPUNTOS COEFICIENTE
+
+    $end            reduce using rule 1 (fichero -> results .)
+    PNUMERO         shift and go to state 5
+
+    result                         shift and go to state 6
+    ci                             shift and go to state 4
+
+state 3
+
+    (3) results -> result .
+
+    PNUMERO         reduce using rule 3 (results -> result .)
+    $end            reduce using rule 3 (results -> result .)
+
+
+state 4
+
+    (4) result -> ci . GUION PNUMERO PUNTOYCOMA
+    (5) ci -> ci . COMA PNUMERO DOSPUNTOS COEFICIENTE
+
+    GUION           shift and go to state 7
+    COMA            shift and go to state 8
+
+
+state 5
+
+    (6) ci -> PNUMERO . DOSPUNTOS COEFICIENTE
+
+    DOSPUNTOS       shift and go to state 9
+
+
+state 6
+
+    (2) results -> results result .
+
+    PNUMERO         reduce using rule 2 (results -> results result .)
+    $end            reduce using rule 2 (results -> results result .)
+
+
+state 7
+
+    (4) result -> ci GUION . PNUMERO PUNTOYCOMA
+
+    PNUMERO         shift and go to state 10
+
+
+state 8
+
+    (5) ci -> ci COMA . PNUMERO DOSPUNTOS COEFICIENTE
+
+    PNUMERO         shift and go to state 11
+
+
+state 9
+
+    (6) ci -> PNUMERO DOSPUNTOS . COEFICIENTE
+
+    COEFICIENTE     shift and go to state 12
+
+
+state 10
+
+    (4) result -> ci GUION PNUMERO . PUNTOYCOMA
+
+    PUNTOYCOMA      shift and go to state 13
+
+
+state 11
+
+    (5) ci -> ci COMA PNUMERO . DOSPUNTOS COEFICIENTE
+
+    DOSPUNTOS       shift and go to state 14
+
+
+state 12
+
+    (6) ci -> PNUMERO DOSPUNTOS COEFICIENTE .
+
+    GUION           reduce using rule 6 (ci -> PNUMERO DOSPUNTOS COEFICIENTE .)
+    COMA            reduce using rule 6 (ci -> PNUMERO DOSPUNTOS COEFICIENTE .)
+
+
+state 13
+
+    (4) result -> ci GUION PNUMERO PUNTOYCOMA .
+
+    PNUMERO         reduce using rule 4 (result -> ci GUION PNUMERO PUNTOYCOMA .)
+    $end            reduce using rule 4 (result -> ci GUION PNUMERO PUNTOYCOMA .)
+
+
+state 14
+
+    (5) ci -> ci COMA PNUMERO DOSPUNTOS . COEFICIENTE
+
+    COEFICIENTE     shift and go to state 15
+
+
+state 15
+
+    (5) ci -> ci COMA PNUMERO DOSPUNTOS COEFICIENTE .
+
+    GUION           reduce using rule 5 (ci -> ci COMA PNUMERO DOSPUNTOS COEFICIENTE .)
+    COMA            reduce using rule 5 (ci -> ci COMA PNUMERO DOSPUNTOS COEFICIENTE .)
+
