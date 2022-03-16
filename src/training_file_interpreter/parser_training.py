@@ -1,10 +1,10 @@
 import ply.yacc as yacc
 
 #TOKENS DEFINIDOS EN EL ANALIZADOR LEXICO
-from lexer_training import Lexer
+from training_file_interpreter.lexer_training import LexerTraining
 
 
-class Parser(object):
+class ParserTraining(object):
         def build(self, lexer):
             self.lexer = lexer
             self.tokens = lexer.tokens
@@ -28,7 +28,7 @@ class Parser(object):
             '''
             result : ci GUION PNUMERO PUNTOYCOMA
             '''
-            p[0] = (p[1], p[3])
+            p[0] = (p[1], int(p[3][1::]))
 
         def p_ci(self, p):
             '''
@@ -36,9 +36,9 @@ class Parser(object):
                 | PNUMERO DOSPUNTOS COEFICIENTE
             '''
             if len(p) == 4:
-                p[0] = [(int(p[1][1::]), int(p[3][1::]))]
+                p[0] = [(int(p[1][1::]), p[3])]
             else:
-                p[0] = p[1] + [(int(p[3][1::]), int(p[5][1::]))]
+                p[0] = p[1] + [(int(p[3][1::]), p[5])]
         def p_error(self, p):
             print(p)
             print("Error de sintaxis en el archivo")
@@ -54,15 +54,14 @@ class Parser(object):
                     except StopIteration:
                         return None
             res = self._parser.parse("", lexer=self.lexer.lexer, tokenfunc = get_token)
-            print(res)
             return res
             
 
 
-lexer = Lexer()
-lexer.build()
-parser = Parser()
-parser.build(lexer)
-f = open('data/output_test', 'r', encoding = 'utf8')
-parser.parsing(f)
-f.close()
+# lexer = LexerTraining()
+# lexer.build()
+# parser = ParserTraining()
+# parser.build(lexer)
+# f = open('data/output_test', 'r', encoding = 'utf8')
+# parser.parsing(f)
+# f.close()

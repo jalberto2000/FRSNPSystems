@@ -2,7 +2,7 @@ import ply.lex as lex
 
 
 
-class Lexer(object):
+class LexerTraining(object):
     tokens = [
         'COEFICIENTE',
         'DOSPUNTOS',

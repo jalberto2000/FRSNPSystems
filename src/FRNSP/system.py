@@ -1,6 +1,8 @@
 from neurons.neuron import RuleNeuron, PropositionNeuron
 from file_interpreter.parser import Parser
 from file_interpreter.lexer import Lexer
+from training_file_interpreter.lexer_training import LexerTraining
+from training_file_interpreter.parser_training import ParserTraining
 from FRNSP.utils import calculate_IN, calculate_OUT, calculate_maximum_depth, calculate_presyn, get_edge, Stack
 import graphviz
 import copy
@@ -9,13 +11,13 @@ import random
 
 class System():
     def __init__(self, file) -> None:
-        self.lexer = Lexer()
-        self.lexer.build()
-        self.parser = Parser()
-        self.parser.build(self.lexer)
+        lexer = Lexer()
+        lexer.build()
+        parser = Parser()
+        parser.build(lexer)
         try:
             f = open(file, 'r', encoding= "utf8")
-            self.propositions, self.rules = self.parser.parsing(f)
+            self.propositions, self.rules = parser.parsing(f)
             f.close()
         except FileNotFoundError:
             print("La ruta introducida es incorrecta, abortando ejecucion")
@@ -173,8 +175,20 @@ class System():
             self.next_iteration() 
         index_of_neuron = self.neurons.index(max(self.OUT, key = lambda x : x.pulse_value))
         return (index_of_neuron+1,self.propositions[index_of_neuron][0])
-
-
+    def train_network(self, file):
+        lexer = LexerTraining()
+        lexer.build()
+        parser = ParserTraining()
+        parser.build(lexer)
+        training_data = []
+        try:
+            f = open(file, 'r', encoding= "utf8")
+            training_data = parser.parsing(f)
+            f.close()
+        except FileNotFoundError:
+            print("La ruta introducida es incorrecta, abortando ejecucion")
+            exit()
+        self.training_algorithm(training_data)
     def training_algorithm(self, set: List[Tuple[List[Tuple[str, float]], str]]) -> None:
         def get_rule_neurons_involved(n, syn, IN):
             r_neurons = []
@@ -183,11 +197,12 @@ class System():
             while not st.is_empty(): #MIENTRAS HAYA ELEMENTOS EN LA PILA, COMPROBAMOS SUS ANTECEDENTES
                 actual = st.get_element()
                 for s in syn:
-                    if actual in syn[s]:
-                        if s not in IN: #SI NO ES UNA NEURONA DE ENTRADA LA INTRODUCIMOS EN LA PILA
-                            st.push(s)
-                        if type(s) == RuleNeuron: #SI ES UNA NEURONA DE REGLA LA GUARDAMOS
-                            r_neurons.append(s)
+                    for p_n, f in syn[s]:
+                        if actual == p_n:
+                            if s not in IN: #SI NO ES UNA NEURONA DE ENTRADA LA INTRODUCIMOS EN LA PILA
+                                st.push(s)
+                            if type(s) == RuleNeuron: #SI ES UNA NEURONA DE REGLA LA GUARDAMOS
+                                r_neurons.append(s)
             return r_neurons
         random.shuffle(set)
         training_set = set[0: int(0.7*len(set))]
@@ -197,7 +212,7 @@ class System():
             n_in, n_out = x
             for n, v in n_in: #PONEMOS LOS VALORES DE ENTRADA CORRESPONDIENTES
                 self.neurons[n-1].pulse_value = v
-            o_out = self.run_algorithm_not_graph()
+            o_out, _ = self.run_algorithm_not_graph()
             
             if o_out != n_out:
                 v_ex = self.neurons[n_out-1].pulse_value
@@ -211,14 +226,35 @@ class System():
                     if n.pulse_value > v_ex:
                         r_neurons = get_rule_neurons_involved(n, self.syn, self.IN)
                         for r_n in r_neurons: #MODIFICAMOS LAS NEURONAS IMPLICADAS
-                            r_n.confidence_factor -= (n.pulse_value - v_ex)*0.5
-                
+                            r_n.confidence_factor -= (n.pulse_value - v_ex)*0.01
+                            if r_n.confidence_factor < 0:
+                                r_n.confidence_factor = 0
                 #MODIFICAMOS AHORA LAS NEURONAS IMPLICADAS EN LA NEURONA ESPERADA COMO RESULTADO
                 r_neurons = get_rule_neurons_involved(self.neurons[n_out-1], self.syn, self.IN)
                 for r_n in r_neurons:
                     r_n.confidence_factor += (m_value - v_ex) * 0.5
+                    if r_n.confidence_factor > 1:
+                        r_n.confidence_factor = 1
             self.reset_system() #VOLVEMOS EL SISTEMA A UN ESTADO INICIAL PARA PODER REALIZAR OTRA EJECUCION
-            #TODO COMPROBAR EL % DE ACIERTOS CON EL TEST_SET
+        #COMPROBAMOS EL % DE ACIERTOS CON EL SET DE TEST    
+        res = {True:0, False:0}
+        cont = 0
+        for y in test_set:
+            n_in, n_out = y
+            for n, v in n_in:
+                self.neurons[n-1].pulse_value = v
+            o_out, _ = self.run_algorithm_not_graph()
+            if n_out == o_out:
+                cont += 1
+                res[True] += 1
+            else:
+                res[False] += 1
+            self.reset_system()
+        for r in self.neurons:
+            if type(r) == RuleNeuron:
+                print(r.confidence_factor)
+        print("Hay un {}% de aciertos".format(int(100*(res[True]/len(test_set)))))
+        print("Hay un {}% de fallos".format(int(100*(res[False]/len(test_set)))))
     def plot_graph(self) -> None:
         graph = graphviz.Digraph(strict=True, graph_attr={"splines": "line"})
         p = len(self.propositions)

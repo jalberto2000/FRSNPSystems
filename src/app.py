@@ -130,5 +130,5 @@ elif int(mode) == 2:
 
 else:
     file = input("Introduzca la ruta absoluta del archivo correspondiente con los valores de entrenamiento")
-
+    s.train_network(file)
 input("Introduzca cualquier valor para salir del programa")
