@@ -153,6 +153,10 @@ class System():
             self.next_iteration()
             self.plot_graph()
 
+        maximum_output_neuron = max(self.OUT, key = lambda x : x.pulse_value)
+        ind = self.neurons.index(maximum_output_neuron)
+        print("El fallo mas probable es ->  %s" % self.propositions[ind])
+
     def plot_graph(self) -> None:
         graph = graphviz.Digraph(strict=True, graph_attr={"splines": "line"})
         p = len(self.propositions)
