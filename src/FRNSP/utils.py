@@ -63,3 +63,21 @@ def get_edge(syn: syn_type, n1: Neuron, n2: Neuron) -> Tuple[Neuron, Callable]:
         if n == n2:
             return (n,f)
     return None
+
+'''
+UNA CLASE QUE IMPLEMENTA UNA ESTRUCTURA DE DATOS TIPO LIFO PARA SER USADA EN EL 
+ALGORITMO DE APRENDIZAJE DEL SISTEMA
+'''
+class Stack():
+    def __init__(self):
+        self.stack = []
+    def push(self, value): #INSERTAR UN ELEMENTO
+        self.stack.insert(0, value)
+    def pop(self): #ELIMINAR EL PRIMER ELEMENTO SIN DEVOLVER SU VALOR
+        self.stack.pop(0)
+    def get_element(self): #OBTENER EL PRIMER ELEMENTO ELIMINANDOLO DE LA PILA
+        return self.stack.pop(0)
+    def is_empty(self) -> bool: #COMPROBAR SI LA PILA ESTA VACIA
+        return len(self.stack) == 0
+    
+
