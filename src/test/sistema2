@@ -1,0 +1,22 @@
+PROPOSICIONES
+Total hydrocarbon is little high: P1 = 0.8;
+CDOSHDOS is low: P2 = 0.2;
+Total hydrocarbon is rather high: P3 = 0.8;
+CDOSHDOS is too high: P4 = 0.8;
+HDOS is high: P5 = 0.9;
+CDOSHDOS in total hydrocarbon occupies a too low proportion: P6 = 0.8;
+Total hydrocarbon is little low: P7 = 0.2;
+CHCUATRO in total hydrocarbon occupies a large proportion: P8 = 0.1;
+CHCUATRO in total hydrocarbon occupies a higher proportion than CDOSHDOS: P9 = 0.1;
+Total hydrocarbon is rather low: P10 = 0.2;
+General overheating fault occurs;
+Serious overheating fault occurs;
+The partial discharge occurs;
+The spark discharge occurs;
+
+REGLAS
+
+IF P1 AND P2 THEN P11: C1 = 0.8;
+IF P3 AND P4 AND P5 AND P6 THEN P12: C2 = 0.8;
+IF P7 AND P8 AND P9 THEN P13: C3 = 0.8;
+IF P4 AND P5 AND P10 THEN P14: C4 = 0.8;

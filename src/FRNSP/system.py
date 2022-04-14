@@ -234,7 +234,7 @@ class System():
                 #MODIFICAMOS AHORA LAS NEURONAS IMPLICADAS EN LA NEURONA ESPERADA COMO RESULTADO
                 r_neurons = get_rule_neurons_involved(self.neurons[n_out-1], self.syn, self.IN)
                 for r_n in r_neurons:
-                    r_n.confidence_factor += (m_value - v_ex) * 0.5
+                    r_n.confidence_factor += (m_value - v_ex) * 0.02
                     if r_n.confidence_factor > 1:
                         r_n.confidence_factor = 1
             self.reset_system() #VOLVEMOS EL SISTEMA A UN ESTADO INICIAL PARA PODER REALIZAR OTRA EJECUCION
