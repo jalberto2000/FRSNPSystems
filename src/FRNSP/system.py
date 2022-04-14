@@ -189,6 +189,7 @@ class System():
             print("La ruta introducida es incorrecta, abortando ejecucion")
             exit()
         self.training_algorithm(training_data)
+
     def training_algorithm(self, set: List[Tuple[List[Tuple[str, float]], str]]) -> None:
         def get_rule_neurons_involved(n, syn, IN):
             r_neurons = []
@@ -219,6 +220,7 @@ class System():
                 self.OUT.sort(key = lambda x : x.pulse_value)
                 m_value = self.OUT[-1].pulse_value
                 for n in self.OUT: 
+                    
                     '''
                     PARA CADA NEURONA DE SALIDA, SI SU VALOR ES MAYOR QUE EL DE LA NEURONA ESPERADA, MODIFICAMOS EL FACTOR DE CONFIANZA
                     DE LAS NEURONAS DE REGLA IMPLICADAS
