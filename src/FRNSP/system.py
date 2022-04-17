@@ -175,7 +175,7 @@ class System():
             self.next_iteration() 
         index_of_neuron = self.neurons.index(max(self.OUT, key = lambda x : x.pulse_value))
         return (index_of_neuron+1,self.propositions[index_of_neuron][0])
-    def train_network(self, file):
+    def train_network(self, file: str) -> None:
         lexer = LexerTraining()
         lexer.build()
         parser = ParserTraining()
