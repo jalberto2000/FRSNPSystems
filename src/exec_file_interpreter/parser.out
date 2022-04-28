@@ -1,0 +1,150 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Grammar
+
+Rule 0     S' -> fichero
+Rule 1     fichero -> values END
+Rule 2     values -> value_exec NEXT values
+Rule 3     values -> value_exec
+Rule 4     value_exec -> neuron_value PUNTOYCOMA value_exec
+Rule 5     value_exec -> neuron_value PUNTOYCOMA
+Rule 6     neuron_value -> PNUMERO DOSPUNTOS COEFICIENTE
+
+Terminals, with rules where they appear
+
+COEFICIENTE          : 6
+DOSPUNTOS            : 6
+END                  : 1
+NEXT                 : 2
+PNUMERO              : 6
+PUNTOYCOMA           : 4 5
+error                : 
+
+Nonterminals, with rules where they appear
+
+fichero              : 0
+neuron_value         : 4 5
+value_exec           : 2 3 4
+values               : 1 2
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . fichero
+    (1) fichero -> . values END
+    (2) values -> . value_exec NEXT values
+    (3) values -> . value_exec
+    (4) value_exec -> . neuron_value PUNTOYCOMA value_exec
+    (5) value_exec -> . neuron_value PUNTOYCOMA
+    (6) neuron_value -> . PNUMERO DOSPUNTOS COEFICIENTE
+
+    PNUMERO         shift and go to state 5
+
+    fichero                        shift and go to state 1
+    values                         shift and go to state 2
+    value_exec                     shift and go to state 3
+    neuron_value                   shift and go to state 4
+
+state 1
+
+    (0) S' -> fichero .
+
+
+
+state 2
+
+    (1) fichero -> values . END
+
+    END             shift and go to state 6
+
+
+state 3
+
+    (2) values -> value_exec . NEXT values
+    (3) values -> value_exec .
+
+    NEXT            shift and go to state 7
+    END             reduce using rule 3 (values -> value_exec .)
+
+
+state 4
+
+    (4) value_exec -> neuron_value . PUNTOYCOMA value_exec
+    (5) value_exec -> neuron_value . PUNTOYCOMA
+
+    PUNTOYCOMA      shift and go to state 8
+
+
+state 5
+
+    (6) neuron_value -> PNUMERO . DOSPUNTOS COEFICIENTE
+
+    DOSPUNTOS       shift and go to state 9
+
+
+state 6
+
+    (1) fichero -> values END .
+
+    $end            reduce using rule 1 (fichero -> values END .)
+
+
+state 7
+
+    (2) values -> value_exec NEXT . values
+    (2) values -> . value_exec NEXT values
+    (3) values -> . value_exec
+    (4) value_exec -> . neuron_value PUNTOYCOMA value_exec
+    (5) value_exec -> . neuron_value PUNTOYCOMA
+    (6) neuron_value -> . PNUMERO DOSPUNTOS COEFICIENTE
+
+    PNUMERO         shift and go to state 5
+
+    value_exec                     shift and go to state 3
+    values                         shift and go to state 10
+    neuron_value                   shift and go to state 4
+
+state 8
+
+    (4) value_exec -> neuron_value PUNTOYCOMA . value_exec
+    (5) value_exec -> neuron_value PUNTOYCOMA .
+    (4) value_exec -> . neuron_value PUNTOYCOMA value_exec
+    (5) value_exec -> . neuron_value PUNTOYCOMA
+    (6) neuron_value -> . PNUMERO DOSPUNTOS COEFICIENTE
+
+    NEXT            reduce using rule 5 (value_exec -> neuron_value PUNTOYCOMA .)
+    END             reduce using rule 5 (value_exec -> neuron_value PUNTOYCOMA .)
+    PNUMERO         shift and go to state 5
+
+    neuron_value                   shift and go to state 4
+    value_exec                     shift and go to state 11
+
+state 9
+
+    (6) neuron_value -> PNUMERO DOSPUNTOS . COEFICIENTE
+
+    COEFICIENTE     shift and go to state 12
+
+
+state 10
+
+    (2) values -> value_exec NEXT values .
+
+    END             reduce using rule 2 (values -> value_exec NEXT values .)
+
+
+state 11
+
+    (4) value_exec -> neuron_value PUNTOYCOMA value_exec .
+
+    NEXT            reduce using rule 4 (value_exec -> neuron_value PUNTOYCOMA value_exec .)
+    END             reduce using rule 4 (value_exec -> neuron_value PUNTOYCOMA value_exec .)
+
+
+state 12
+
+    (6) neuron_value -> PNUMERO DOSPUNTOS COEFICIENTE .
+
+    PUNTOYCOMA      reduce using rule 6 (neuron_value -> PNUMERO DOSPUNTOS COEFICIENTE .)
+
