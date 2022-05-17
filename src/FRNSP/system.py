@@ -106,28 +106,37 @@ class System():
         self.OUT = calculate_OUT(self.syn, self.neurons)
         self.maximum_depth = calculate_maximum_depth(self.syn, self.IN, self.OUT)
 
-def assign_values_to_proposition_neurons(self, neurons, values):
-    
-    for neuron, value in zip(neurons,values):
-        if self.neurons[neuron-1] not in self.IN:
-            raise(ValueError, "La neurona {} no pertenece al conjunto de entrada", neuron)
-        else:
-            self.neurons[neuron-1].pulse_value = value
-            self.neurons[neuron-1].truth_value = value
+    def assign_values_to_proposition_neurons(self, neurons, values):
+        for neuron, value in zip(neurons,values):
+            if self.neurons[neuron-1] not in self.IN:
+                raise(ValueError, "La neurona {} no pertenece al conjunto de entrada", neuron)
+            else:
+                self.neurons[neuron-1].pulse_value = value
+                self.neurons[neuron-1].truth_value = value
+        return
 
 
-def execute_system(self, file):
-    lexer = LexerExec()
-    lexer.build()
-    parser = ParserExec()
-    parser.build(lexer)
-    try:
-        f = open(file, 'r', encoding= "utf8")
-        self.propositions, self.rules = parser.parsing(f)
-        f.close()
-    except FileNotFoundError:
-        print("La ruta introducida es incorrecta, abortando ejecucion")
-        exit()
+    def execute_system(self, file, output_file):
+        lexer = LexerExec()
+        lexer.build()
+        parser = ParserExec()
+        parser.build(lexer)
+        try:
+            f = open(file, 'r', encoding= "utf8")
+            valores_neuronas_ejecuciones = parser.parsing(f)
+            f.close()
+        except FileNotFoundError:
+            print("La ruta introducida es incorrecta, abortando ejecucion")
+            exit()
+        for ejecucion in valores_neuronas_ejecuciones:
+            neuronas, valores = list(zip(*ejecucion))
+
+            self.assign_values_to_proposition_neurons(neuronas,valores)
+            n,v = self.run_algorithm()
+            with open(output_file, 'a') as f:
+                f.write("La neurona con el mayor valor de verdad asociado es la neurona {} que representa '{}'\n".format(n, v))
+            self.reset_system()
+        
 
 #FUNCION QUE COMPUTA LA SIGUIENTE ITERACION EN EL SISTEMA
     def next_iteration(self) -> None:

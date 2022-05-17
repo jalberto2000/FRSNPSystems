@@ -1,7 +1,8 @@
 import ply.yacc as yacc
 
 #TOKENS DEFINIDOS EN EL ANALIZADOR LEXICO
-from lexer_exec import LexerExec
+from exec_file_interpreter.lexer_exec import LexerExec
+# from lexer_exec import LexerExec
 
 
 class ParserExec(object):
@@ -20,21 +21,18 @@ class ParserExec(object):
             values : value_exec NEXT values 
                     | value_exec
             '''
-            aux1 = [p[1]]
-            if len(p) == 4:
-                aux2 = []
-                print(p[3])
-                for l in p[3]:
-                    if type(l) == tuple:
-                        aux2.append(l)
-                    else:
-                        aux1.append(l)
 
-                aux1.append(aux2)
-                aux1.append(l)  
-                p[0] = aux1
+            if len(p) == 4:
+                if type(p[3][0]) == list:
+                    p[0] = [p[1],]
+                    for l in p[3]:
+                        p[0].append(l)
+                else:
+                    p[0] = [p[1], p[3]]
             else:
-                p[0] = p[1]
+                p[0] = [p[1]]
+
+
         def p_value_exec(self, p):
             '''
             value_exec : neuron_value PUNTOYCOMA value_exec
@@ -71,11 +69,12 @@ class ParserExec(object):
             
 
 
-lexer = LexerExec()
-lexer.build()
-parser = ParserExec()
-parser.build(lexer)
-f = open('../test/neurons_values', 'r', encoding = 'utf8')
-r = parser.parsing(f)
-print(r)
-f.close()
+# lexer = LexerExec()
+# lexer.build()
+# parser = ParserExec()
+# parser.build(lexer)
+# f = open('../test/valores_proposiciones_sistema1', 'r', encoding = 'utf8')
+# r = parser.parsing(f)
+# print("final")
+# print(r)
+# f.close()

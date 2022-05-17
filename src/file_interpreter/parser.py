@@ -2,6 +2,7 @@ import ply.yacc as yacc
 
 #TOKENS DEFINIDOS EN EL ANALIZADOR LEXICO
 from file_interpreter.lexer import Lexer
+# from lexer import Lexer
 
 
 class Parser(object):
@@ -26,13 +27,10 @@ class Parser(object):
                 p[0] = p[1] + [p[2],]
         def p_proposition(self, p):
             '''
-            proposition : text DOSPUNTOS PNUMERO IGUAL COEFICIENTE PUNTOYCOMA
-                        | text PUNTOYCOMA
+            proposition : text PUNTOYCOMA
             '''
             if len(p) == 3:
                 p[0] = (p[1],)
-            else:
-                p[0] = (p[1], p[3], p[5])
 
         def p_text(self, p):
             '''
@@ -130,5 +128,6 @@ class Parser(object):
 # parser = Parser()
 # parser.build(lexer)
 # f = open('../test/sistema', 'r', encoding = 'utf8')
-# parser.parsing(f)
+# res = parser.parsing(f)
+# print(res)
 # f.close()

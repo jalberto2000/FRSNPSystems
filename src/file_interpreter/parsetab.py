@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'AND CNUMERO COEFICIENTE DOSPUNTOS IDENT IF IGUAL NUMERO OR PNUMERO PROPOSICIONES PUNTOYCOMA REGLAS THEN\n            fichero : PROPOSICIONES propositions REGLAS rules\n            \n            propositions : propositions proposition \n                         | proposition\n            \n            proposition : text DOSPUNTOS PNUMERO IGUAL COEFICIENTE PUNTOYCOMA\n                        | text PUNTOYCOMA\n            \n            text : text IDENT \n                 | IDENT\n            \n            rules : rules rule\n                  | rule\n            \n            rule : IF union THEN PNUMERO DOSPUNTOS CNUMERO IGUAL COEFICIENTE PUNTOYCOMA\n            \n            union : andunion\n                  | orunion\n                  | PNUMERO\n            \n            andunion : andunion AND andunion\n                     | PNUMERO\n            \n            orunion : orunion OR orunion\n                    | PNUMERO\n            '
+_lr_signature = 'AND CNUMERO COEFICIENTE DOSPUNTOS IDENT IF IGUAL NUMERO OR PNUMERO PROPOSICIONES PUNTOYCOMA REGLAS THEN\n            fichero : PROPOSICIONES propositions REGLAS rules\n            \n            propositions : propositions proposition \n                         | proposition\n            \n            proposition : text PUNTOYCOMA\n            \n            text : text IDENT \n                 | IDENT\n            \n            rules : rules rule\n                  | rule\n            \n            rule : IF union THEN PNUMERO DOSPUNTOS CNUMERO IGUAL COEFICIENTE PUNTOYCOMA\n            \n            union : andunion\n                  | orunion\n                  | PNUMERO\n            \n            andunion : andunion AND andunion\n                     | PNUMERO\n            \n            orunion : orunion OR orunion\n                    | PNUMERO\n            '
     
-_lr_action_items = {'PROPOSICIONES':([0,],[2,]),'$end':([1,12,13,16,36,],[0,-1,-9,-8,-10,]),'IDENT':([2,3,4,5,6,8,10,11,31,],[6,6,-3,11,-7,-2,-5,-6,-4,]),'REGLAS':([3,4,8,10,31,],[7,-3,-2,-5,-4,]),'DOSPUNTOS':([5,6,11,26,],[9,-7,-6,32,]),'PUNTOYCOMA':([5,6,11,25,35,],[10,-7,-6,31,36,]),'IF':([7,12,13,16,36,],[14,14,-9,-8,-10,]),'PNUMERO':([9,14,22,23,24,],[15,18,26,28,30,]),'IGUAL':([15,33,],[21,34,]),'THEN':([17,18,19,20,27,28,29,30,],[22,-13,-11,-12,-14,-15,-16,-17,]),'AND':([18,19,27,28,],[-15,23,23,-15,]),'OR':([18,20,29,30,],[-17,24,24,-17,]),'COEFICIENTE':([21,34,],[25,35,]),'CNUMERO':([32,],[33,]),}
+_lr_action_items = {'PROPOSICIONES':([0,],[2,]),'$end':([1,11,12,14,31,],[0,-1,-8,-7,-9,]),'IDENT':([2,3,4,5,6,8,9,10,],[6,6,-3,10,-6,-2,-4,-5,]),'REGLAS':([3,4,8,9,],[7,-3,-2,-4,]),'PUNTOYCOMA':([5,6,10,30,],[9,-6,-5,31,]),'IF':([7,11,12,14,31,],[13,13,-8,-7,-9,]),'PNUMERO':([13,19,20,21,],[16,22,24,26,]),'THEN':([15,16,17,18,23,24,25,26,],[19,-12,-10,-11,-13,-14,-15,-16,]),'AND':([16,17,23,24,],[-14,20,20,-14,]),'OR':([16,18,25,26,],[-16,21,21,-16,]),'DOSPUNTOS':([22,],[27,]),'CNUMERO':([27,],[28,]),'IGUAL':([28,],[29,]),'COEFICIENTE':([29,],[30,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'fichero':([0,],[1,]),'propositions':([2,],[3,]),'proposition':([2,3,],[4,8,]),'text':([2,3,],[5,5,]),'rules':([7,],[12,]),'rule':([7,12,],[13,16,]),'union':([14,],[17,]),'andunion':([14,23,],[19,27,]),'orunion':([14,24,],[20,29,]),}
+_lr_goto_items = {'fichero':([0,],[1,]),'propositions':([2,],[3,]),'proposition':([2,3,],[4,8,]),'text':([2,3,],[5,5,]),'rules':([7,],[11,]),'rule':([7,11,],[12,14,]),'union':([13,],[15,]),'andunion':([13,20,],[17,23,]),'orunion':([13,21,],[18,25,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -30,18 +30,17 @@ _lr_productions = [
   ('fichero -> PROPOSICIONES propositions REGLAS rules','fichero',4,'p_fichero','parser.py',14),
   ('propositions -> propositions proposition','propositions',2,'p_propositions','parser.py',20),
   ('propositions -> proposition','propositions',1,'p_propositions','parser.py',21),
-  ('proposition -> text DOSPUNTOS PNUMERO IGUAL COEFICIENTE PUNTOYCOMA','proposition',6,'p_proposition','parser.py',29),
-  ('proposition -> text PUNTOYCOMA','proposition',2,'p_proposition','parser.py',30),
-  ('text -> text IDENT','text',2,'p_text','parser.py',39),
-  ('text -> IDENT','text',1,'p_text','parser.py',40),
-  ('rules -> rules rule','rules',2,'p_rules','parser.py',48),
-  ('rules -> rule','rules',1,'p_rules','parser.py',49),
-  ('rule -> IF union THEN PNUMERO DOSPUNTOS CNUMERO IGUAL COEFICIENTE PUNTOYCOMA','rule',9,'p_rule','parser.py',57),
-  ('union -> andunion','union',1,'p_union','parser.py',63),
-  ('union -> orunion','union',1,'p_union','parser.py',64),
-  ('union -> PNUMERO','union',1,'p_union','parser.py',65),
-  ('andunion -> andunion AND andunion','andunion',3,'p_andunion','parser.py',73),
-  ('andunion -> PNUMERO','andunion',1,'p_andunion','parser.py',74),
-  ('orunion -> orunion OR orunion','orunion',3,'p_orunion','parser.py',93),
-  ('orunion -> PNUMERO','orunion',1,'p_orunion','parser.py',94),
+  ('proposition -> text PUNTOYCOMA','proposition',2,'p_proposition','parser.py',29),
+  ('text -> text IDENT','text',2,'p_text','parser.py',36),
+  ('text -> IDENT','text',1,'p_text','parser.py',37),
+  ('rules -> rules rule','rules',2,'p_rules','parser.py',45),
+  ('rules -> rule','rules',1,'p_rules','parser.py',46),
+  ('rule -> IF union THEN PNUMERO DOSPUNTOS CNUMERO IGUAL COEFICIENTE PUNTOYCOMA','rule',9,'p_rule','parser.py',54),
+  ('union -> andunion','union',1,'p_union','parser.py',60),
+  ('union -> orunion','union',1,'p_union','parser.py',61),
+  ('union -> PNUMERO','union',1,'p_union','parser.py',62),
+  ('andunion -> andunion AND andunion','andunion',3,'p_andunion','parser.py',70),
+  ('andunion -> PNUMERO','andunion',1,'p_andunion','parser.py',71),
+  ('orunion -> orunion OR orunion','orunion',3,'p_orunion','parser.py',90),
+  ('orunion -> PNUMERO','orunion',1,'p_orunion','parser.py',91),
 ]

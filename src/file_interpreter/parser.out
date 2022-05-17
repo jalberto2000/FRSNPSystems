@@ -10,50 +10,49 @@ Rule 0     S' -> fichero
 Rule 1     fichero -> PROPOSICIONES propositions REGLAS rules
 Rule 2     propositions -> propositions proposition
 Rule 3     propositions -> proposition
-Rule 4     proposition -> text DOSPUNTOS PNUMERO IGUAL COEFICIENTE PUNTOYCOMA
-Rule 5     proposition -> text PUNTOYCOMA
-Rule 6     text -> text IDENT
-Rule 7     text -> IDENT
-Rule 8     rules -> rules rule
-Rule 9     rules -> rule
-Rule 10    rule -> IF union THEN PNUMERO DOSPUNTOS CNUMERO IGUAL COEFICIENTE PUNTOYCOMA
-Rule 11    union -> andunion
-Rule 12    union -> orunion
-Rule 13    union -> PNUMERO
-Rule 14    andunion -> andunion AND andunion
-Rule 15    andunion -> PNUMERO
-Rule 16    orunion -> orunion OR orunion
-Rule 17    orunion -> PNUMERO
+Rule 4     proposition -> text PUNTOYCOMA
+Rule 5     text -> text IDENT
+Rule 6     text -> IDENT
+Rule 7     rules -> rules rule
+Rule 8     rules -> rule
+Rule 9     rule -> IF union THEN PNUMERO DOSPUNTOS CNUMERO IGUAL COEFICIENTE PUNTOYCOMA
+Rule 10    union -> andunion
+Rule 11    union -> orunion
+Rule 12    union -> PNUMERO
+Rule 13    andunion -> andunion AND andunion
+Rule 14    andunion -> PNUMERO
+Rule 15    orunion -> orunion OR orunion
+Rule 16    orunion -> PNUMERO
 
 Terminals, with rules where they appear
 
-AND                  : 14
-CNUMERO              : 10
-COEFICIENTE          : 4 10
-DOSPUNTOS            : 4 10
-IDENT                : 6 7
-IF                   : 10
-IGUAL                : 4 10
+AND                  : 13
+CNUMERO              : 9
+COEFICIENTE          : 9
+DOSPUNTOS            : 9
+IDENT                : 5 6
+IF                   : 9
+IGUAL                : 9
 NUMERO               : 
-OR                   : 16
-PNUMERO              : 4 10 13 15 17
+OR                   : 15
+PNUMERO              : 9 12 14 16
 PROPOSICIONES        : 1
-PUNTOYCOMA           : 4 5 10
+PUNTOYCOMA           : 4 9
 REGLAS               : 1
-THEN                 : 10
+THEN                 : 9
 error                : 
 
 Nonterminals, with rules where they appear
 
-andunion             : 11 14 14
+andunion             : 10 13 13
 fichero              : 0
-orunion              : 12 16 16
+orunion              : 11 15 15
 proposition          : 2 3
 propositions         : 1 2
-rule                 : 8 9
-rules                : 1 8
-text                 : 4 5 6
-union                : 10
+rule                 : 7 8
+rules                : 1 7
+text                 : 4 5
+union                : 9
 
 Parsing method: LALR
 
@@ -77,10 +76,9 @@ state 2
     (1) fichero -> PROPOSICIONES . propositions REGLAS rules
     (2) propositions -> . propositions proposition
     (3) propositions -> . proposition
-    (4) proposition -> . text DOSPUNTOS PNUMERO IGUAL COEFICIENTE PUNTOYCOMA
-    (5) proposition -> . text PUNTOYCOMA
-    (6) text -> . text IDENT
-    (7) text -> . IDENT
+    (4) proposition -> . text PUNTOYCOMA
+    (5) text -> . text IDENT
+    (6) text -> . IDENT
 
     IDENT           shift and go to state 6
 
@@ -92,10 +90,9 @@ state 3
 
     (1) fichero -> PROPOSICIONES propositions . REGLAS rules
     (2) propositions -> propositions . proposition
-    (4) proposition -> . text DOSPUNTOS PNUMERO IGUAL COEFICIENTE PUNTOYCOMA
-    (5) proposition -> . text PUNTOYCOMA
-    (6) text -> . text IDENT
-    (7) text -> . IDENT
+    (4) proposition -> . text PUNTOYCOMA
+    (5) text -> . text IDENT
+    (6) text -> . IDENT
 
     REGLAS          shift and go to state 7
     IDENT           shift and go to state 6
@@ -113,35 +110,32 @@ state 4
 
 state 5
 
-    (4) proposition -> text . DOSPUNTOS PNUMERO IGUAL COEFICIENTE PUNTOYCOMA
-    (5) proposition -> text . PUNTOYCOMA
-    (6) text -> text . IDENT
+    (4) proposition -> text . PUNTOYCOMA
+    (5) text -> text . IDENT
 
-    DOSPUNTOS       shift and go to state 9
-    PUNTOYCOMA      shift and go to state 10
-    IDENT           shift and go to state 11
+    PUNTOYCOMA      shift and go to state 9
+    IDENT           shift and go to state 10
 
 
 state 6
 
-    (7) text -> IDENT .
+    (6) text -> IDENT .
 
-    DOSPUNTOS       reduce using rule 7 (text -> IDENT .)
-    PUNTOYCOMA      reduce using rule 7 (text -> IDENT .)
-    IDENT           reduce using rule 7 (text -> IDENT .)
+    PUNTOYCOMA      reduce using rule 6 (text -> IDENT .)
+    IDENT           reduce using rule 6 (text -> IDENT .)
 
 
 state 7
 
     (1) fichero -> PROPOSICIONES propositions REGLAS . rules
-    (8) rules -> . rules rule
-    (9) rules -> . rule
-    (10) rule -> . IF union THEN PNUMERO DOSPUNTOS CNUMERO IGUAL COEFICIENTE PUNTOYCOMA
+    (7) rules -> . rules rule
+    (8) rules -> . rule
+    (9) rule -> . IF union THEN PNUMERO DOSPUNTOS CNUMERO IGUAL COEFICIENTE PUNTOYCOMA
 
-    IF              shift and go to state 14
+    IF              shift and go to state 13
 
-    rules                          shift and go to state 12
-    rule                           shift and go to state 13
+    rules                          shift and go to state 11
+    rule                           shift and go to state 12
 
 state 8
 
@@ -153,257 +147,220 @@ state 8
 
 state 9
 
-    (4) proposition -> text DOSPUNTOS . PNUMERO IGUAL COEFICIENTE PUNTOYCOMA
+    (4) proposition -> text PUNTOYCOMA .
 
-    PNUMERO         shift and go to state 15
+    REGLAS          reduce using rule 4 (proposition -> text PUNTOYCOMA .)
+    IDENT           reduce using rule 4 (proposition -> text PUNTOYCOMA .)
 
 
 state 10
 
-    (5) proposition -> text PUNTOYCOMA .
+    (5) text -> text IDENT .
 
-    REGLAS          reduce using rule 5 (proposition -> text PUNTOYCOMA .)
-    IDENT           reduce using rule 5 (proposition -> text PUNTOYCOMA .)
+    PUNTOYCOMA      reduce using rule 5 (text -> text IDENT .)
+    IDENT           reduce using rule 5 (text -> text IDENT .)
 
 
 state 11
 
-    (6) text -> text IDENT .
+    (1) fichero -> PROPOSICIONES propositions REGLAS rules .
+    (7) rules -> rules . rule
+    (9) rule -> . IF union THEN PNUMERO DOSPUNTOS CNUMERO IGUAL COEFICIENTE PUNTOYCOMA
 
-    DOSPUNTOS       reduce using rule 6 (text -> text IDENT .)
-    PUNTOYCOMA      reduce using rule 6 (text -> text IDENT .)
-    IDENT           reduce using rule 6 (text -> text IDENT .)
+    $end            reduce using rule 1 (fichero -> PROPOSICIONES propositions REGLAS rules .)
+    IF              shift and go to state 13
 
+    rule                           shift and go to state 14
 
 state 12
 
-    (1) fichero -> PROPOSICIONES propositions REGLAS rules .
-    (8) rules -> rules . rule
-    (10) rule -> . IF union THEN PNUMERO DOSPUNTOS CNUMERO IGUAL COEFICIENTE PUNTOYCOMA
+    (8) rules -> rule .
 
-    $end            reduce using rule 1 (fichero -> PROPOSICIONES propositions REGLAS rules .)
-    IF              shift and go to state 14
+    IF              reduce using rule 8 (rules -> rule .)
+    $end            reduce using rule 8 (rules -> rule .)
 
-    rule                           shift and go to state 16
 
 state 13
 
-    (9) rules -> rule .
+    (9) rule -> IF . union THEN PNUMERO DOSPUNTOS CNUMERO IGUAL COEFICIENTE PUNTOYCOMA
+    (10) union -> . andunion
+    (11) union -> . orunion
+    (12) union -> . PNUMERO
+    (13) andunion -> . andunion AND andunion
+    (14) andunion -> . PNUMERO
+    (15) orunion -> . orunion OR orunion
+    (16) orunion -> . PNUMERO
 
-    IF              reduce using rule 9 (rules -> rule .)
-    $end            reduce using rule 9 (rules -> rule .)
+    PNUMERO         shift and go to state 16
 
+    union                          shift and go to state 15
+    andunion                       shift and go to state 17
+    orunion                        shift and go to state 18
 
 state 14
 
-    (10) rule -> IF . union THEN PNUMERO DOSPUNTOS CNUMERO IGUAL COEFICIENTE PUNTOYCOMA
-    (11) union -> . andunion
-    (12) union -> . orunion
-    (13) union -> . PNUMERO
-    (14) andunion -> . andunion AND andunion
-    (15) andunion -> . PNUMERO
-    (16) orunion -> . orunion OR orunion
-    (17) orunion -> . PNUMERO
+    (7) rules -> rules rule .
 
-    PNUMERO         shift and go to state 18
+    IF              reduce using rule 7 (rules -> rules rule .)
+    $end            reduce using rule 7 (rules -> rules rule .)
 
-    union                          shift and go to state 17
-    andunion                       shift and go to state 19
-    orunion                        shift and go to state 20
 
 state 15
 
-    (4) proposition -> text DOSPUNTOS PNUMERO . IGUAL COEFICIENTE PUNTOYCOMA
+    (9) rule -> IF union . THEN PNUMERO DOSPUNTOS CNUMERO IGUAL COEFICIENTE PUNTOYCOMA
 
-    IGUAL           shift and go to state 21
+    THEN            shift and go to state 19
 
 
 state 16
 
-    (8) rules -> rules rule .
+    (12) union -> PNUMERO .
+    (14) andunion -> PNUMERO .
+    (16) orunion -> PNUMERO .
 
-    IF              reduce using rule 8 (rules -> rules rule .)
-    $end            reduce using rule 8 (rules -> rules rule .)
+  ! reduce/reduce conflict for THEN resolved using rule 12 (union -> PNUMERO .)
+  ! reduce/reduce conflict for THEN resolved using rule 12 (union -> PNUMERO .)
+    THEN            reduce using rule 12 (union -> PNUMERO .)
+    AND             reduce using rule 14 (andunion -> PNUMERO .)
+    OR              reduce using rule 16 (orunion -> PNUMERO .)
+
+  ! THEN            [ reduce using rule 14 (andunion -> PNUMERO .) ]
+  ! THEN            [ reduce using rule 16 (orunion -> PNUMERO .) ]
 
 
 state 17
 
-    (10) rule -> IF union . THEN PNUMERO DOSPUNTOS CNUMERO IGUAL COEFICIENTE PUNTOYCOMA
+    (10) union -> andunion .
+    (13) andunion -> andunion . AND andunion
 
-    THEN            shift and go to state 22
+    THEN            reduce using rule 10 (union -> andunion .)
+    AND             shift and go to state 20
 
 
 state 18
 
-    (13) union -> PNUMERO .
-    (15) andunion -> PNUMERO .
-    (17) orunion -> PNUMERO .
+    (11) union -> orunion .
+    (15) orunion -> orunion . OR orunion
 
-  ! reduce/reduce conflict for THEN resolved using rule 13 (union -> PNUMERO .)
-  ! reduce/reduce conflict for THEN resolved using rule 13 (union -> PNUMERO .)
-    THEN            reduce using rule 13 (union -> PNUMERO .)
-    AND             reduce using rule 15 (andunion -> PNUMERO .)
-    OR              reduce using rule 17 (orunion -> PNUMERO .)
-
-  ! THEN            [ reduce using rule 15 (andunion -> PNUMERO .) ]
-  ! THEN            [ reduce using rule 17 (orunion -> PNUMERO .) ]
+    THEN            reduce using rule 11 (union -> orunion .)
+    OR              shift and go to state 21
 
 
 state 19
 
-    (11) union -> andunion .
-    (14) andunion -> andunion . AND andunion
+    (9) rule -> IF union THEN . PNUMERO DOSPUNTOS CNUMERO IGUAL COEFICIENTE PUNTOYCOMA
 
-    THEN            reduce using rule 11 (union -> andunion .)
-    AND             shift and go to state 23
+    PNUMERO         shift and go to state 22
 
 
 state 20
 
-    (12) union -> orunion .
-    (16) orunion -> orunion . OR orunion
+    (13) andunion -> andunion AND . andunion
+    (13) andunion -> . andunion AND andunion
+    (14) andunion -> . PNUMERO
 
-    THEN            reduce using rule 12 (union -> orunion .)
-    OR              shift and go to state 24
+    PNUMERO         shift and go to state 24
 
+    andunion                       shift and go to state 23
 
 state 21
 
-    (4) proposition -> text DOSPUNTOS PNUMERO IGUAL . COEFICIENTE PUNTOYCOMA
+    (15) orunion -> orunion OR . orunion
+    (15) orunion -> . orunion OR orunion
+    (16) orunion -> . PNUMERO
 
-    COEFICIENTE     shift and go to state 25
+    PNUMERO         shift and go to state 26
 
+    orunion                        shift and go to state 25
 
 state 22
 
-    (10) rule -> IF union THEN . PNUMERO DOSPUNTOS CNUMERO IGUAL COEFICIENTE PUNTOYCOMA
+    (9) rule -> IF union THEN PNUMERO . DOSPUNTOS CNUMERO IGUAL COEFICIENTE PUNTOYCOMA
 
-    PNUMERO         shift and go to state 26
+    DOSPUNTOS       shift and go to state 27
 
 
 state 23
 
-    (14) andunion -> andunion AND . andunion
-    (14) andunion -> . andunion AND andunion
-    (15) andunion -> . PNUMERO
+    (13) andunion -> andunion AND andunion .
+    (13) andunion -> andunion . AND andunion
 
-    PNUMERO         shift and go to state 28
+  ! shift/reduce conflict for AND resolved as shift
+    THEN            reduce using rule 13 (andunion -> andunion AND andunion .)
+    AND             shift and go to state 20
 
-    andunion                       shift and go to state 27
+  ! AND             [ reduce using rule 13 (andunion -> andunion AND andunion .) ]
+
 
 state 24
 
-    (16) orunion -> orunion OR . orunion
-    (16) orunion -> . orunion OR orunion
-    (17) orunion -> . PNUMERO
+    (14) andunion -> PNUMERO .
 
-    PNUMERO         shift and go to state 30
+    AND             reduce using rule 14 (andunion -> PNUMERO .)
+    THEN            reduce using rule 14 (andunion -> PNUMERO .)
 
-    orunion                        shift and go to state 29
 
 state 25
 
-    (4) proposition -> text DOSPUNTOS PNUMERO IGUAL COEFICIENTE . PUNTOYCOMA
+    (15) orunion -> orunion OR orunion .
+    (15) orunion -> orunion . OR orunion
 
-    PUNTOYCOMA      shift and go to state 31
+  ! shift/reduce conflict for OR resolved as shift
+    THEN            reduce using rule 15 (orunion -> orunion OR orunion .)
+    OR              shift and go to state 21
+
+  ! OR              [ reduce using rule 15 (orunion -> orunion OR orunion .) ]
 
 
 state 26
 
-    (10) rule -> IF union THEN PNUMERO . DOSPUNTOS CNUMERO IGUAL COEFICIENTE PUNTOYCOMA
+    (16) orunion -> PNUMERO .
 
-    DOSPUNTOS       shift and go to state 32
+    OR              reduce using rule 16 (orunion -> PNUMERO .)
+    THEN            reduce using rule 16 (orunion -> PNUMERO .)
 
 
 state 27
 
-    (14) andunion -> andunion AND andunion .
-    (14) andunion -> andunion . AND andunion
+    (9) rule -> IF union THEN PNUMERO DOSPUNTOS . CNUMERO IGUAL COEFICIENTE PUNTOYCOMA
 
-  ! shift/reduce conflict for AND resolved as shift
-    THEN            reduce using rule 14 (andunion -> andunion AND andunion .)
-    AND             shift and go to state 23
-
-  ! AND             [ reduce using rule 14 (andunion -> andunion AND andunion .) ]
+    CNUMERO         shift and go to state 28
 
 
 state 28
 
-    (15) andunion -> PNUMERO .
+    (9) rule -> IF union THEN PNUMERO DOSPUNTOS CNUMERO . IGUAL COEFICIENTE PUNTOYCOMA
 
-    AND             reduce using rule 15 (andunion -> PNUMERO .)
-    THEN            reduce using rule 15 (andunion -> PNUMERO .)
+    IGUAL           shift and go to state 29
 
 
 state 29
 
-    (16) orunion -> orunion OR orunion .
-    (16) orunion -> orunion . OR orunion
+    (9) rule -> IF union THEN PNUMERO DOSPUNTOS CNUMERO IGUAL . COEFICIENTE PUNTOYCOMA
 
-  ! shift/reduce conflict for OR resolved as shift
-    THEN            reduce using rule 16 (orunion -> orunion OR orunion .)
-    OR              shift and go to state 24
-
-  ! OR              [ reduce using rule 16 (orunion -> orunion OR orunion .) ]
+    COEFICIENTE     shift and go to state 30
 
 
 state 30
 
-    (17) orunion -> PNUMERO .
+    (9) rule -> IF union THEN PNUMERO DOSPUNTOS CNUMERO IGUAL COEFICIENTE . PUNTOYCOMA
 
-    OR              reduce using rule 17 (orunion -> PNUMERO .)
-    THEN            reduce using rule 17 (orunion -> PNUMERO .)
+    PUNTOYCOMA      shift and go to state 31
 
 
 state 31
 
-    (4) proposition -> text DOSPUNTOS PNUMERO IGUAL COEFICIENTE PUNTOYCOMA .
+    (9) rule -> IF union THEN PNUMERO DOSPUNTOS CNUMERO IGUAL COEFICIENTE PUNTOYCOMA .
 
-    REGLAS          reduce using rule 4 (proposition -> text DOSPUNTOS PNUMERO IGUAL COEFICIENTE PUNTOYCOMA .)
-    IDENT           reduce using rule 4 (proposition -> text DOSPUNTOS PNUMERO IGUAL COEFICIENTE PUNTOYCOMA .)
-
-
-state 32
-
-    (10) rule -> IF union THEN PNUMERO DOSPUNTOS . CNUMERO IGUAL COEFICIENTE PUNTOYCOMA
-
-    CNUMERO         shift and go to state 33
-
-
-state 33
-
-    (10) rule -> IF union THEN PNUMERO DOSPUNTOS CNUMERO . IGUAL COEFICIENTE PUNTOYCOMA
-
-    IGUAL           shift and go to state 34
-
-
-state 34
-
-    (10) rule -> IF union THEN PNUMERO DOSPUNTOS CNUMERO IGUAL . COEFICIENTE PUNTOYCOMA
-
-    COEFICIENTE     shift and go to state 35
-
-
-state 35
-
-    (10) rule -> IF union THEN PNUMERO DOSPUNTOS CNUMERO IGUAL COEFICIENTE . PUNTOYCOMA
-
-    PUNTOYCOMA      shift and go to state 36
-
-
-state 36
-
-    (10) rule -> IF union THEN PNUMERO DOSPUNTOS CNUMERO IGUAL COEFICIENTE PUNTOYCOMA .
-
-    IF              reduce using rule 10 (rule -> IF union THEN PNUMERO DOSPUNTOS CNUMERO IGUAL COEFICIENTE PUNTOYCOMA .)
-    $end            reduce using rule 10 (rule -> IF union THEN PNUMERO DOSPUNTOS CNUMERO IGUAL COEFICIENTE PUNTOYCOMA .)
+    IF              reduce using rule 9 (rule -> IF union THEN PNUMERO DOSPUNTOS CNUMERO IGUAL COEFICIENTE PUNTOYCOMA .)
+    $end            reduce using rule 9 (rule -> IF union THEN PNUMERO DOSPUNTOS CNUMERO IGUAL COEFICIENTE PUNTOYCOMA .)
 
 WARNING: 
 WARNING: Conflicts:
 WARNING: 
-WARNING: shift/reduce conflict for AND in state 27 resolved as shift
-WARNING: shift/reduce conflict for OR in state 29 resolved as shift
-WARNING: reduce/reduce conflict in state 18 resolved using rule (union -> PNUMERO)
-WARNING: rejected rule (andunion -> PNUMERO) in state 18
-WARNING: reduce/reduce conflict in state 18 resolved using rule (union -> PNUMERO)
-WARNING: rejected rule (orunion -> PNUMERO) in state 18
+WARNING: shift/reduce conflict for AND in state 23 resolved as shift
+WARNING: shift/reduce conflict for OR in state 25 resolved as shift
+WARNING: reduce/reduce conflict in state 16 resolved using rule (union -> PNUMERO)
+WARNING: rejected rule (andunion -> PNUMERO) in state 16
+WARNING: reduce/reduce conflict in state 16 resolved using rule (union -> PNUMERO)
+WARNING: rejected rule (orunion -> PNUMERO) in state 16
