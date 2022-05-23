@@ -5,7 +5,7 @@ from testing_file_interpreter.lexer_testing import LexerTesting
 # from lexer_testing import LexerTesting
 
 
-class ParserExec(object):
+class ParserTesting(object):
         def build(self, lexer):
             self.lexer = lexer
             self.tokens = lexer.tokens
@@ -37,7 +37,7 @@ class ParserExec(object):
             '''
             range_value : PNUMERO DOSPUNTOS COEFICIENTE GUION COEFICIENTE PUNTOYCOMA
             '''
-            p[0] = (p[1], (float(p[3]), float(p[5])))
+            p[0] = (int(p[1][1::]), (float(p[3]), float(p[5])))
 
 
         def p_error(self, p):
@@ -60,12 +60,12 @@ class ParserExec(object):
             
 
 
-lexer = LexerTesting()
-lexer.build()
-parser = ParserExec()
-parser.build(lexer)
-f = open('../test/testing_values', 'r', encoding = 'utf8')
-r = parser.parsing(f)
-print("final")
-print(r)
-f.close()
+# lexer = LexerTesting()
+# lexer.build()
+# parser = ParserTesting()
+# parser.build(lexer)
+# f = open('../test/testing_values', 'r', encoding = 'utf8')
+# r = parser.parsing(f)
+# print("final")
+# print(r)
+# f.close()

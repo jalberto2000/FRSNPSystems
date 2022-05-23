@@ -5,14 +5,20 @@ from training_file_interpreter.lexer_training import LexerTraining
 from training_file_interpreter.parser_training import ParserTraining
 from exec_file_interpreter.lexer_exec import LexerExec
 from exec_file_interpreter.parser_exec import ParserExec
+from testing_file_interpreter.lexer_testing import LexerTesting
+from testing_file_interpreter.parser_testing import ParserTesting
 from FRNSP.utils import calculate_IN, calculate_OUT, calculate_maximum_depth, calculate_presyn, get_edge, Stack
 import graphviz
 import copy
 from typing import Tuple, List
 import random
 
+ARCHIVO_TEST = "test_data.txt"
+ARCHIVO_LEARNING = "learning_data.txt"
+ARCHIVO_EXEC = "exec_data.txt"
 class System():
-    def __init__(self, file) -> None:
+    def __init__(self, file, output_dir) -> None:
+        self.output_dir = output_dir
         lexer = Lexer()
         lexer.build()
         parser = Parser()
@@ -106,14 +112,17 @@ class System():
         self.OUT = calculate_OUT(self.syn, self.neurons)
         self.maximum_depth = calculate_maximum_depth(self.syn, self.IN, self.OUT)
 
+
+
     def assign_values_to_proposition_neurons(self, neurons, values):
         for neuron, value in zip(neurons,values):
             if self.neurons[neuron-1] not in self.IN:
-                raise(ValueError, "La neurona {} no pertenece al conjunto de entrada", neuron)
+                raise(ValueError, "La neurona {} no pertenece al conjunto de entrada".format(neuron))
             else:
                 self.neurons[neuron-1].pulse_value = value
                 self.neurons[neuron-1].truth_value = value
-        return
+                self.neurons[neuron-1].ready_to_fire = 1
+        
 
 
     def execute_system(self, file, output_file):
@@ -122,21 +131,71 @@ class System():
         parser = ParserExec()
         parser.build(lexer)
         try:
+            print(str(file))
             f = open(file, 'r', encoding= "utf8")
             valores_neuronas_ejecuciones = parser.parsing(f)
             f.close()
         except FileNotFoundError:
             print("La ruta introducida es incorrecta, abortando ejecucion")
             exit()
+        st = ""
+        print(valores_neuronas_ejecuciones)
         for ejecucion in valores_neuronas_ejecuciones:
             neuronas, valores = list(zip(*ejecucion))
 
             self.assign_values_to_proposition_neurons(neuronas,valores)
             n,v = self.run_algorithm()
-            with open(output_file, 'a') as f:
-                f.write("La neurona con el mayor valor de verdad asociado es la neurona {} que representa '{}'\n".format(n, v))
+            st += "La neurona con el mayor valor de verdad asociado es la neurona {} que representa '{}'\n".format(n, v)
             self.reset_system()
+        with open(output_file + "\\" + ARCHIVO_EXEC, 'a') as f:
+            f.write(st)
+    
+    def test_system(self, file):
+        ids_in = [x.id for x in self.IN]
+        lexer = LexerTesting()
+        lexer.build()
+        parser = ParserTesting()
+        parser.build(lexer)
+        try:
+            f = open(file, 'r', encoding= "utf8")
+            iteraciones, rangos = parser.parsing(f)
+            f.close()
+        except FileNotFoundError:
+            print("La ruta introducida es incorrecta, abortando ejecucion")
+            exit()
+        st = ""
+        sol = {}
+        for i in range(iteraciones):
+            
+            for r in rangos:
+                if(not self.neurons[r[0]-1] in self.IN):
+                    print("La neurona {} no esta en el conjunto IN, abortando ejecucion".format(r[0]-1))
+                    exit()
+                random_value = random.uniform(*r[1])
+                self.neurons[r[0] -1].pulse_value = random_value
+                self.neurons[r[0] -1].truth_value = random_value
+                self.neurons[r[0] -1].ready_to_fire = 1
+            self.run_algorithm_not_graph()
+            n_err, err = self.run_algorithm_not_graph()
+            if err in sol:
+                sol[err] += 1
+            else:
+                sol[err] = 1
+
+            for i in range(len(ids_in)):
+                if i == len(ids_in)-1:
+                    st+= "P{}:{:.2f}-P{};\n".format(ids_in[i], self.neurons[ids_in[i]-1].pulse_value, n_err)
+                else:
+                    st+= "P{}:{:.2f},".format(ids_in[i], self.neurons[ids_in[i]-1].pulse_value)
+            self.reset_system()
+        for pr in sol:
+            st += "El fallo '{}' ocurre un {:.2f}% de las veces\n".format(pr, (100*(sol[pr]/iteraciones)))
+
+        with open(self.output_dir+ "\\"+ARCHIVO_TEST, 'a') as f:
+            f.write(st)
         
+
+
 
 #FUNCION QUE COMPUTA LA SIGUIENTE ITERACION EN EL SISTEMA
     def next_iteration(self) -> None:
@@ -179,6 +238,7 @@ class System():
                     next_it.append(n_neuron)
 
 
+
         for i in range(len(self.neurons)):
             if type(self.neurons[i]) == PropositionNeuron:
                 self.neurons[i].pulse_value = next_it[i].pulse_value
@@ -188,7 +248,6 @@ class System():
                 self.neurons[i].ready_to_fire = next_it[i].ready_to_fire
                 self.neurons[i].pulse_value = next_it[i].pulse_value
                 self.neurons[i].confidence_factor = next_it[i].confidence_factor
-
         self.t += 1
 
     def reset_system(self) -> None: #LLEVAMOS EL SISTEMA A UN ESTADO INICIAL PARA VOLVER A COMENZAR LA EJECUCION
@@ -225,6 +284,14 @@ class System():
         self.training_algorithm(training_data)
 
     def training_algorithm(self, set: List[Tuple[List[Tuple[str, float]], str]]) -> None:
+        s = ""
+        #DAMOS UN VALOR ALEATORIO A LAS NEURONAS DE REGLAS
+
+        for n in self.neurons:
+            if type(n) == RuleNeuron:
+                r = random.random()
+                n.confidence_factor = r
+                n.pulse_value = r
         def get_rule_neurons_involved(n, syn, IN):
             r_neurons = []
             st = Stack()
@@ -242,9 +309,9 @@ class System():
         random.shuffle(set)
         training_set = set[0: int(0.7*len(set))]
         test_set = set[int(0.7*len(set)) : len(set)]
-        print("PRE ENTRENAMIENTO")
-        self.testea_sobre_conjunto(test_set, "test")
-        self.testea_sobre_conjunto(training_set, "entrenamiento") 
+        s+= "PRE ENTRENAMIENTO\n"
+        s+= self.testea_sobre_conjunto(test_set, "test")
+        s+= self.testea_sobre_conjunto(training_set, "entrenamiento") 
         for x in training_set:
             n_in, n_out = x
             for n, v in n_in: #PONEMOS LOS VALORES DE ENTRADA CORRESPONDIENTES
@@ -252,6 +319,7 @@ class System():
             o_out, _ = self.run_algorithm_not_graph()
             
             if o_out != n_out:
+
                 v_ex = self.neurons[n_out-1].pulse_value
                 self.OUT.sort(key = lambda x : x.pulse_value)
                 m_value = self.OUT[-1].pulse_value
@@ -275,11 +343,14 @@ class System():
                         r_n.confidence_factor = 1
             self.reset_system() #VOLVEMOS EL SISTEMA A UN ESTADO INICIAL PARA PODER REALIZAR OTRA EJECUCION
         #COMPROBAMOS EL % DE ACIERTOS CON EL SET DE TEST Y CON EL CONJUNTO DE ENTRENAMIENTO
-        print("POST ENTRENAMIENTO")
-        self.testea_sobre_conjunto(test_set, "test")
-        self.testea_sobre_conjunto(training_set, "entrenamiento") 
+        s += "POST ENTRENAMIENTO\n"
+        s+= self.testea_sobre_conjunto(test_set, "test")
+        s+= self.testea_sobre_conjunto(training_set, "entrenamiento") 
+    
+        with open(self.output_dir + "\\" +ARCHIVO_LEARNING, 'a') as f:
+            f.write(s)
     def testea_sobre_conjunto(self, conjunto, nombreConjunto):
-        print("Testeando sobre el conjunto de {}".format(nombreConjunto))
+        s = "Testeando sobre el conjunto de {}\n".format(nombreConjunto)
         res = {True:0, False:0}
         cont = 0
         for y in conjunto:
@@ -293,8 +364,9 @@ class System():
             else:
                 res[False] += 1
             self.reset_system()
-        print("Hay un {}% de aciertos".format(int(100*(res[True]/len(conjunto)))))
-        print("Hay un {}% de fallos".format(int(100*(res[False]/len(conjunto)))))
+        s+= "Hay un {}% de aciertos\n".format(int(100*(res[True]/len(conjunto))))
+        s+= "Hay un {}% de fallos\n".format(int(100*(res[False]/len(conjunto))))
+        return s
     def plot_graph(self) -> None:
         graph = graphviz.Digraph(strict=True, graph_attr={"splines": "line"})
         p = len(self.propositions)
@@ -329,5 +401,5 @@ class System():
                 sg.node(str(n.id))
                  
         graph.format = "svg"
-        graph.render(directory='./test/grafo%d' %self.t)
+        graph.render(directory=self.output_dir + "/grafos"+ '/grafo%d' %self.t)
     

@@ -27,7 +27,7 @@ else: #SE CREA UN DIRECTORIO DATA PARA ALMACENAR LOS RESULTADOS
 print("Bienvenido al modulo de simulacion de sistemas FRSNP")
 file = input("Introduzca la ruta absoluta del archivo a partir del cual construir el sistema: ")
 
-s = System(file)
+s = System(file, "C:\\Users\\alber\\Desktop\\TFG")
 s.buildSystem()
 mode = get_execution_mode()
 if int(mode) == 1:
