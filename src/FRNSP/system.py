@@ -112,6 +112,9 @@ class System():
         self.OUT = calculate_OUT(self.syn, self.neurons)
         self.maximum_depth = calculate_maximum_depth(self.syn, self.IN, self.OUT)
 
+        for n in self.IN:
+            n.ready_to_fire = 1
+
 
 
     def assign_values_to_proposition_neurons(self, neurons, values):
@@ -346,6 +349,10 @@ class System():
         s += "POST ENTRENAMIENTO\n"
         s+= self.testea_sobre_conjunto(test_set, "test")
         s+= self.testea_sobre_conjunto(training_set, "entrenamiento") 
+
+        for n in self.neurons:
+            if type(n) == RuleNeuron:
+                s += "Neurona {} -> Valor Final {}\n".format(n.id, n.confidence_factor)
     
         with open(self.output_dir + "\\" +ARCHIVO_LEARNING, 'a') as f:
             f.write(s)
