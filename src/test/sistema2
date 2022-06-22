@@ -1,14 +1,14 @@
 PROPOSICIONES
-Total hydrocarbon is little high: P1 = 0.8;
-CDOSHDOS is low: P2 = 0.2;
-Total hydrocarbon is rather high: P3 = 0.8;
-CDOSHDOS is too high: P4 = 0.8;
-HDOS is high: P5 = 0.9;
-CDOSHDOS in total hydrocarbon occupies a too low proportion: P6 = 0.8;
-Total hydrocarbon is little low: P7 = 0.2;
-CHCUATRO in total hydrocarbon occupies a large proportion: P8 = 0.1;
-CHCUATRO in total hydrocarbon occupies a higher proportion than CDOSHDOS: P9 = 0.1;
-Total hydrocarbon is rather low: P10 = 0.2;
+Total hydrocarbon is little high;
+CDOSHDOS is low;
+Total hydrocarbon is rather high;
+CDOSHDOS is too high;
+HDOS is high;
+CDOSHDOS in total hydrocarbon occupies a too low proportion;
+Total hydrocarbon is little low;
+CHCUATRO in total hydrocarbon occupies a large proportion;
+CHCUATRO in total hydrocarbon occupies a higher proportion than CDOSHDOS;
+Total hydrocarbon is rather low;
 General overheating fault occurs;
 Serious overheating fault occurs;
 The partial discharge occurs;
