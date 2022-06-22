@@ -142,14 +142,15 @@ class System():
             print("La ruta introducida es incorrecta, abortando ejecucion")
             exit()
         st = ""
-        print(valores_neuronas_ejecuciones)
+        ejecuciones = 1
         for ejecucion in valores_neuronas_ejecuciones:
             neuronas, valores = list(zip(*ejecucion))
 
             self.assign_values_to_proposition_neurons(neuronas,valores)
-            n,v = self.run_algorithm()
+            n,v = self.run_algorithm(ejecuciones)
             st += "La neurona con el mayor valor de verdad asociado es la neurona {} que representa '{}'\n".format(n, v)
             self.reset_system()
+            ejecuciones+=1
         with open(output_file + "\\" + ARCHIVO_EXEC, 'a') as f:
             f.write(st)
     
@@ -259,10 +260,10 @@ class System():
             if neuron not in self.IN:
                 neuron.ready_to_fire = False
 
-    def run_algorithm(self) -> Tuple[int, str]: #EJECUTAMOS EL ALGORITMO GUARDANDO EL ESTADO DE LA RED EN CADA PASO
+    def run_algorithm(self, ejecucion) -> Tuple[int, str]: #EJECUTAMOS EL ALGORITMO GUARDANDO EL ESTADO DE LA RED EN CADA PASO
         while(self.t < self.maximum_depth):
             self.next_iteration()
-            self.plot_graph()
+            self.plot_graph(ejecucion)
         index_of_neuron = self.neurons.index(max(self.OUT, key = lambda x : x.pulse_value))
         return (index_of_neuron+1,self.propositions[index_of_neuron][0])
         
@@ -374,7 +375,7 @@ class System():
         s+= "Hay un {}% de aciertos\n".format(int(100*(res[True]/len(conjunto))))
         s+= "Hay un {}% de fallos\n".format(int(100*(res[False]/len(conjunto))))
         return s
-    def plot_graph(self) -> None:
+    def plot_graph(self, ejecucion) -> None:
         graph = graphviz.Digraph(strict=True, graph_attr={"splines": "line"})
         p = len(self.propositions)
         for neuron in self.neurons:
@@ -408,5 +409,5 @@ class System():
                 sg.node(str(n.id))
                  
         graph.format = "svg"
-        graph.render(directory=self.output_dir + "/grafos"+ '/grafo%d' %self.t)
+        graph.render(directory=self.output_dir + "/grafos_ejecucion{}/grafo{}".format(ejecucion,self.t))
     
