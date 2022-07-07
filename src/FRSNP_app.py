@@ -1,5 +1,5 @@
 import argparse
-from FRNSP.system import System
+from FRSNP.system import System
 import os, shutil
 parser = argparse.ArgumentParser()
 

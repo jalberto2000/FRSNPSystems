@@ -1,5 +1,5 @@
 import re, random, os
-from FRNSP.system import System
+from FRSNP.system import System
 NEURON_PATTERN = re.compile("P[0-9]+")
 N_EJECUCIONES = 100
 DATA_FILE_ROUTE = "./data/"

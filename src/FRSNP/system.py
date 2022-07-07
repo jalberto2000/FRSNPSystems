@@ -7,7 +7,7 @@ from exec_file_interpreter.lexer_exec import LexerExec
 from exec_file_interpreter.parser_exec import ParserExec
 from testing_file_interpreter.lexer_testing import LexerTesting
 from testing_file_interpreter.parser_testing import ParserTesting
-from FRNSP.utils import calculate_IN, calculate_OUT, calculate_maximum_depth, calculate_presyn, get_edge, Stack
+from FRSNP.utils import calculate_IN, calculate_OUT, calculate_maximum_depth, calculate_presyn, get_edge, Stack
 import graphviz
 import copy
 from typing import Tuple, List
